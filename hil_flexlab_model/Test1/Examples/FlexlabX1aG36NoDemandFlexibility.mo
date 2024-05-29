@@ -146,7 +146,7 @@ model FlexlabX1aG36NoDemandFlexibility
     outDamPhyPosMax=0.96,
     outDamPhyPosMin=0.3,
     pIniSet=120,
-    pMinSet=45,
+    pMinSet=25,
     final pMaxSet=250,
     pDelTim=300,
     pNumIgnReq=0,

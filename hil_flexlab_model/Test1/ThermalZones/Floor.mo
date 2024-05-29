@@ -1,5 +1,5 @@
 within hil_flexlab_model.Test1.ThermalZones;
-model FloorG36 "Model of a floor of the building"
+model Floor "Model of a floor of the building"
   extends hil_flexlab_model.Test1.ThermalZones.PartialFloor(
     leaPle(s=6.49/9.33, azi=Buildings.Types.Azimuth.W),
     VRooCor=cor.V,
@@ -468,4 +468,4 @@ to be parameters does not imply that the whole record has the variability of a p
       StopTime=86400,
       Interval=60,
       __Dymola_Algorithm="Dassl"));
-end FloorG36;
+end Floor;

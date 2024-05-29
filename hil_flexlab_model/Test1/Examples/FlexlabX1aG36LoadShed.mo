@@ -20,7 +20,8 @@ model FlexlabX1aG36LoadShed
       clo(T_start=294.96),
       ple(T_start=294.96)),
     weaDat(filNam=Modelica.Utilities.Files.loadResource("modelica://hil_flexlab_model/Resources/weatherdata/US_Berkeley_20210913.mos")),
-    fanSup(addPowerToMedium=false));
+    fanSup(addPowerToMedium=false),
+    souCoo(T=281.48));
 
                               //,
     //  ple(T_start=294.96)));
@@ -49,7 +50,7 @@ model FlexlabX1aG36LoadShed
     TiDam=60,
     VDisCooSetMax_flow=mNor_flow_nominal/1.2,
     VDisSetMin_flow=0.0385/1.2,
-    VDisHeaSetMax_flow=0.0385/1.2,
+    VDisHeaSetMax_flow=0.1274/1.2,
     VDisConMin_flow=0.0385/1.2,
     dTDisZonSetMax=17,
     TDisMin=285.95) "Controller for terminal unit north zone"
@@ -65,7 +66,7 @@ model FlexlabX1aG36LoadShed
     TiDam=60,
     VDisCooSetMax_flow=mCor_flow_nominal/1.2,
     VDisSetMin_flow=0.0385/1.2,
-    VDisHeaSetMax_flow=0.0385/1.2,
+    VDisHeaSetMax_flow=0.1274/1.2,
     VDisConMin_flow=0.0385/1.2,
     dTDisZonSetMax=17,
     TDisMin=285.95) "Controller for terminal unit mid zone"
@@ -81,7 +82,7 @@ model FlexlabX1aG36LoadShed
     TiDam=60,
     VDisCooSetMax_flow=mSou_flow_nominal/1.2,
     VDisSetMin_flow=0.0595/1.2,
-    VDisHeaSetMax_flow=0.0595/1.2,
+    VDisHeaSetMax_flow=0.1274/1.2,
     VDisConMin_flow=0.0595/1.2,
     dTDisZonSetMax=17,
     TDisMin=285.95)               "Controller for terminal unit south zone"
@@ -145,7 +146,7 @@ model FlexlabX1aG36LoadShed
     outDamPhyPosMax=0.96,
     outDamPhyPosMin=0.3,
     pIniSet=120,
-    pMinSet=45,
+    pMinSet=25,
     final pMaxSet=250,
     pDelTim=300,
     pNumIgnReq=0,
@@ -455,9 +456,9 @@ equation
           127}));
   connect(TOut.y, eco_Enable_OAT.TOut) annotation (Line(points={{-279,180},{
           -274,180},{-274,-106},{-78,-106},{-78,-110}}, color={0,0,127}));
-  connect(parallelValvesFlow.CoolingSignal, conAHU.yCoo) annotation (Line(
-        points={{250,-140},{226,-140},{226,-272},{96,-272},{96,-250},{56,-250},
-          {56,442},{444,442},{444,451.882}}, color={0,0,127}));
+  connect(conAHU.yCoo, gaiCooCoi.u) annotation (Line(points={{444,451.882},{532,
+          451.882},{532,-958},{152,-958},{152,-176},{186,-176}},
+                                                     color={0,0,127}));
   annotation (
     Diagram(coordinateSystem(preserveAspectRatio=false,extent={{-380,-320},{1400,
             640}}), graphics={Line(

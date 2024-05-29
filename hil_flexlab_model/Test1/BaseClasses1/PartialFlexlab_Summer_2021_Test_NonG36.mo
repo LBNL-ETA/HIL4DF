@@ -312,7 +312,7 @@ partial model PartialFlexlab_Summer_2021_Test_NonG36
   Buildings.BoundaryConditions.WeatherData.Bus weaBus "Weather Data Bus"
     annotation (Placement(transformation(extent={{-330,170},{-310,190}}),
         iconTransformation(extent={{-360,170},{-340,190}})));
-  ThermalZones.FloorNonG36 flo(redeclare final package Medium = MediumA, final
+  ThermalZones.Floor flo(redeclare final package Medium = MediumA, final
       use_windPressure=use_windPressure)
     "Model of a floor of the building that is served by this VAV system"
     annotation (Placement(transformation(extent={{794,384},{1108,562}})));

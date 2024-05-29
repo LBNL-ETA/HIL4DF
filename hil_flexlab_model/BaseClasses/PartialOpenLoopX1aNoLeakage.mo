@@ -312,8 +312,8 @@ partial model PartialOpenLoopX1aNoLeakage
   Buildings.BoundaryConditions.WeatherData.Bus weaBus "Weather Data Bus"
     annotation (Placement(transformation(extent={{-330,170},{-310,190}}),
         iconTransformation(extent={{-360,170},{-340,190}})));
-  Test1.ThermalZones.FloorNonG36 flo(redeclare final package Medium = MediumA,
-      final use_windPressure=use_windPressure)
+  Test1.ThermalZones.Floor flo(redeclare final package Medium = MediumA, final
+      use_windPressure=use_windPressure)
     "Model of a floor of the building that is served by this VAV system"
     annotation (Placement(transformation(extent={{806,382},{1140,570}})));
   Modelica.Blocks.Routing.DeMultiplex3 TRooAir(u(each unit="K", each
