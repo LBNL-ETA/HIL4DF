@@ -6,17 +6,14 @@ model G36ZoneAirTemperatureCalibration
     package MediumPropyleneGlycol =
       Buildings.Media.Antifreeze.PropyleneGlycolWater (property_T=273.15+50, X_a=
             0.4);
-  CCC_test.obsolete_hil_flexlab_model.Examples.FloorG36_05292024 floorG36_1(
+  Test1.ThermalZones.Floor                                       floorG36_1(
     redeclare package Medium = MediumAir,
     idfName=Modelica.Utilities.Files.loadResource(
         "modelica://hil_flexlab_model/Resources/energyPlusFiles/X1-2021-V8_v2_NoInternalGain.idf"),
-
     epwName=Modelica.Utilities.Files.loadResource(
         "modelica://hil_flexlab_model/Resources/weatherdata/US_Berkeley_20210913.epw"),
-
     weaName=Modelica.Utilities.Files.loadResource(
         "modelica://hil_flexlab_model/Resources/weatherdata/US_Berkeley_20210913.mos"),
-
     nor(T_start(displayUnit="K") = 294.28),
     cor(T_start(displayUnit="K") = 294.91),
     sou(T_start(displayUnit="K") = 294.62))
