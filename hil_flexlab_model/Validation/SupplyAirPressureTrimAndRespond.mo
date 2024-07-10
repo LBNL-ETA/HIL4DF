@@ -4,7 +4,7 @@ model SupplyAirPressureTrimAndRespond
       samplePeriod=180)
     "Extrapolation through the values of the last two sampled input signals"
     annotation (Placement(transformation(extent={{18,18},{66,66}})));
-  Test1.BaseClasses1.Controls.TrimAndRespond_NoTrimWhileRespond
+  Buildings.Obsolete.Controls.OBC.ASHRAE.G36_PR1.Generic.SetPoints.TrimAndRespond
     staPreSetRes(
     final iniSet=120,
     final minSet=25,

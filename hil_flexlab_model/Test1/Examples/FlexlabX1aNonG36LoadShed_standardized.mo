@@ -1,10 +1,11 @@
 within hil_flexlab_model.Test1.Examples;
-model FlexlabX1aNonG36LoadShift
+model FlexlabX1aNonG36LoadShed_standardized
   "DR mode - Variable air volume flow system with terminal reheat and five thermal zones at Flexlab X1 cell"
 
   extends Modelica.Icons.Example;
   extends
-    hil_flexlab_model.Test1.BaseClasses1.PartialFlexlab_Summer_2021_Test_NonG36(
+    hil_flexlab_model.Test1.BaseClasses1.PartialFlexlab_Summer_2021_Test_NonG36
+    (
     occSch(
       occupancy={0,86399},
       firstEntryOccupied=true,
@@ -141,7 +142,7 @@ model FlexlabX1aNonG36LoadShift
   Buildings.Obsolete.Controls.OBC.ASHRAE.G36_PR1.AHUs.MultiZone.VAV.SetPoints.OutdoorAirFlow.SumZone
     zonToSys(final numZon=numZon) "Sum up zone calculation output"
     annotation (Placement(transformation(extent={{274,420},{294,440}})));
-  hil_flexlab_model.Test1.BaseClasses1.Controls.Controller_G36 conAHU(
+  BaseClasses1.Controls.Controller_G36_standardized            conAHU(
     TSupSetUnocc=291.45,
     samplePeriod=samplePeriod,
     retDamPhyPosMax=0.7,
@@ -160,8 +161,8 @@ model FlexlabX1aNonG36LoadShift
     TSupSetMin=284.85,
     TSupSetMax=291.45,
     TSupSetDes=284.85,
-    TOutMin=363.15,
-    TOutMax=368.15,
+    TOutMin=291.45,
+    TOutMax=294.25,
     iniSetSupTem=284.85,
     maxSetSupTem=284.85,
     minSetSupTem=284.85,
@@ -175,9 +176,9 @@ model FlexlabX1aNonG36LoadShift
   Modelica.Blocks.Math.Add add
     annotation (Placement(transformation(extent={{-124,446},{-144,466}})));
   Modelica.Blocks.Sources.CombiTimeTable cooSetDR(
-    table=[0,3.3667; 5,3.3667; 5,2.2556; 6,2.2556; 6,1.7; 7,1.7; 7,0.0333; 10,
-        0.0333; 10,-1.0778; 14,-1.0778; 14,2.2556; 18,2.2556; 18,0.0333; 22,
-        0.0333; 22,3.3667; 24,3.3667],
+    table=[0,3.3667; 5,3.3667; 5,2.2556; 6,2.2556; 6,1.7; 7,1.7; 7,0.0333; 14,
+        0.0333; 14,2.2556; 18,2.2556; 18,0.0333; 22,0.0333; 22,3.3667; 24,
+        3.3667],
     extrapolation=Modelica.Blocks.Types.Extrapolation.Periodic,
     timeScale=3600) "cooling schedule for demand response"
     annotation (Placement(transformation(extent={{-148,400},{-128,420}})));
@@ -548,4 +549,4 @@ This is for
       Interval=60,
       Tolerance=1e-06,
       __Dymola_Algorithm="Dassl"));
-end FlexlabX1aNonG36LoadShift;
+end FlexlabX1aNonG36LoadShed_standardized;

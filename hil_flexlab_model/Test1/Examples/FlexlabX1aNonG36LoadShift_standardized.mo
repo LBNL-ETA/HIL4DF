@@ -1,10 +1,11 @@
 within hil_flexlab_model.Test1.Examples;
-model FlexlabX1aNonG36LoadShift
+model FlexlabX1aNonG36LoadShift_standardized
   "DR mode - Variable air volume flow system with terminal reheat and five thermal zones at Flexlab X1 cell"
 
   extends Modelica.Icons.Example;
   extends
-    hil_flexlab_model.Test1.BaseClasses1.PartialFlexlab_Summer_2021_Test_NonG36(
+    hil_flexlab_model.Test1.BaseClasses1.PartialFlexlab_Summer_2021_Test_NonG36
+    (
     occSch(
       occupancy={0,86399},
       firstEntryOccupied=true,
@@ -141,7 +142,7 @@ model FlexlabX1aNonG36LoadShift
   Buildings.Obsolete.Controls.OBC.ASHRAE.G36_PR1.AHUs.MultiZone.VAV.SetPoints.OutdoorAirFlow.SumZone
     zonToSys(final numZon=numZon) "Sum up zone calculation output"
     annotation (Placement(transformation(extent={{274,420},{294,440}})));
-  hil_flexlab_model.Test1.BaseClasses1.Controls.Controller_G36 conAHU(
+  BaseClasses1.Controls.Controller_G36_standardized            conAHU(
     TSupSetUnocc=291.45,
     samplePeriod=samplePeriod,
     retDamPhyPosMax=0.7,
@@ -160,8 +161,8 @@ model FlexlabX1aNonG36LoadShift
     TSupSetMin=284.85,
     TSupSetMax=291.45,
     TSupSetDes=284.85,
-    TOutMin=363.15,
-    TOutMax=368.15,
+    TOutMin=291.45,
+    TOutMax=294.25,
     iniSetSupTem=284.85,
     maxSetSupTem=284.85,
     minSetSupTem=284.85,
@@ -548,4 +549,4 @@ This is for
       Interval=60,
       Tolerance=1e-06,
       __Dymola_Algorithm="Dassl"));
-end FlexlabX1aNonG36LoadShift;
+end FlexlabX1aNonG36LoadShift_standardized;
