@@ -167,8 +167,8 @@ partial model PartialFlexlab_Summer_2021_Test_G36
     m_flow_nominal=m_flow_nominal,
     allowFlowReversal=allowFlowReversal)
     annotation (Placement(transformation(extent={{330,-50},{350,-30}})));
-  Buildings.Fluid.Sensors.RelativePressure dpDisSupFan(redeclare package Medium =
-        MediumA) "Supply fan static discharge pressure" annotation (Placement(
+  Buildings.Fluid.Sensors.RelativePressure dpDisSupFan(redeclare package Medium
+      = MediumA) "Supply fan static discharge pressure" annotation (Placement(
         transformation(
         extent={{-10,10},{10,-10}},
         rotation=90,
@@ -445,6 +445,14 @@ public
   Buildings.Controls.OBC.CDL.Reals.MultiplyByParameter gaiCooCoi(k=
         m_flow_nominal*1000*15/4200/10) "Gain for cooling coil mass flow rate"
     annotation (Placement(transformation(extent={{188,-186},{208,-166}})));
+  fanSupPow fanSupPow1(
+    a0=43.8320849828646,
+    a1=268.3072220775753,
+    a2=0.4467474347077139,
+    a3=-32.946831271433275,
+    a4=-0.00016366489621401855,
+    a5=1.2545758991164475)
+    annotation (Placement(transformation(extent={{422,-72},{442,-52}})));
 equation
   connect(fanSup.port_b, dpDisSupFan.port_a) annotation (Line(
       points={{320,-40},{320,-10}},
@@ -633,6 +641,11 @@ equation
   connect(gaiCooCoi.y,souCoo. m_flow_in) annotation (Line(points={{210,-176},{
           210,-160},{222,-160},{222,-138}},
                                  color={0,0,127}));
+  connect(senSupFlo.V_flow, fanSupPow1.supFanVolFlo) annotation (Line(points={{
+          410,-29},{410,-57.2},{420,-57.2}}, color={0,0,127}));
+  connect(dpDisSupFan.p_rel, fanSupPow1.supDucStaPre) annotation (Line(points={
+          {311,5.55112e-16},{280,5.55112e-16},{280,-66.6},{420,-66.6}}, color={
+          0,0,127}));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-380,
             -400},{1420,600}}), graphics={Line(points={{310,404}}, color={28,
               108,200}), Line(

@@ -4,8 +4,7 @@ model FlexlabX1aNonG36LoadShed_standardized
 
   extends Modelica.Icons.Example;
   extends
-    hil_flexlab_model.Test1.BaseClasses1.PartialFlexlab_Summer_2021_Test_NonG36
-    (
+    hil_flexlab_model.Test1.BaseClasses1.PartialFlexlab_Summer_2021_Test_NonG36(
     occSch(
       occupancy={0,86399},
       firstEntryOccupied=true,
@@ -26,7 +25,10 @@ model FlexlabX1aNonG36LoadShed_standardized
     weaDat(filNam=Modelica.Utilities.Files.loadResource(
           "modelica://hil_flexlab_model/Resources/weatherdata/US_Berkeley_20210913.mos")),
     souCoo(T=281.48),
-    fanSup(addPowerToMedium=false));
+    fanSup(addPowerToMedium=false),
+    nor(vav(dpDamper_nominal=0.25*240)),
+    cor(vav(dpDamper_nominal=0.25*240)),
+    sou(vav(dpDamper_nominal=0.25*240)));
 
                               //,
     //  ple(T_start=294.96)));

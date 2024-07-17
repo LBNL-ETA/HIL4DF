@@ -447,6 +447,14 @@ public
   Buildings.Controls.OBC.CDL.Reals.Sources.Constant freStaTSetPoi(k=273.15
          + 3) "Freeze stat set point for heating coil"
     annotation (Placement(transformation(extent={{-40,-96},{-20,-76}})));
+  fanSupPow fanSupPow1(
+    a0=43.8320849828646,
+    a1=268.3072220775753,
+    a2=0.4467474347077139,
+    a3=-32.946831271433275,
+    a4=-0.00016366489621401855,
+    a5=1.2545758991164475)
+    annotation (Placement(transformation(extent={{402,-110},{422,-90}})));
 equation
   connect(fanSup.port_b, dpDisSupFan.port_a) annotation (Line(
       points={{320,-40},{320,-10}},
@@ -637,6 +645,12 @@ equation
         color={0,127,255}));
   connect(senSupFlo.port_b, splSupNor.port_1)
     annotation (Line(points={{420,-40},{696,-40}}, color={0,127,255}));
+  connect(senSupFlo.V_flow, fanSupPow1.supFanVolFlo) annotation (Line(points={{
+          410,-29},{432,-29},{432,-22},{448,-22},{448,-74},{400,-74},{400,-95.2}},
+        color={0,0,127}));
+  connect(dpDisSupFan.p_rel, fanSupPow1.supDucStaPre) annotation (Line(points={
+          {311,0},{290,0},{290,2},{270,2},{270,-104.6},{400,-104.6}}, color={0,
+          0,127}));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-380,
             -400},{1420,600}}), graphics={Line(points={{310,404}}, color={28,
               108,200}), Line(

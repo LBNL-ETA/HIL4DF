@@ -21,7 +21,10 @@ model FlexlabX1aG36NoDemandFlexibility_standardized
       ple(T_start=294.96)),
     weaDat(filNam=Modelica.Utilities.Files.loadResource("modelica://hil_flexlab_model/Resources/weatherdata/US_Berkeley_20210913.mos")),
     fanSup(addPowerToMedium=false),
-    souCoo(T=281.48));
+    souCoo(T=281.48),
+    nor(vav(dpDamper_nominal=0.25*240)),
+    cor(vav(dpDamper_nominal=0.25*240)),
+    sou(vav(dpDamper_nominal=0.25*240)));
 
                               //,
     //  ple(T_start=294.96)));

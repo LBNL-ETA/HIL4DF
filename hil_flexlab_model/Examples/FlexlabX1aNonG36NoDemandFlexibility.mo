@@ -4,8 +4,7 @@ model FlexlabX1aNonG36NoDemandFlexibility
 
   extends Modelica.Icons.Example;
   extends
-    hil_flexlab_model.Test1.BaseClasses1.PartialFlexlab_Summer_2021_Test_NonG36
-    (
+    hil_flexlab_model.Test1.BaseClasses1.PartialFlexlab_Summer_2021_Test_NonG36(
     occSch(
       occupancy={0,86399},
       firstEntryOccupied=true,
@@ -26,7 +25,10 @@ model FlexlabX1aNonG36NoDemandFlexibility
     weaDat(filNam=Modelica.Utilities.Files.loadResource(
           "modelica://hil_flexlab_model/Resources/weatherdata/US_Berkeley_20210913.mos")),
     souCoo(T=281.48),
-    fanSup(addPowerToMedium=false));
+    fanSup(addPowerToMedium=false),
+    nor(vav(dpDamper_nominal=0.25*240)),
+    cor(vav(dpDamper_nominal=0.25*240)),
+    sou(vav(dpDamper_nominal=0.25*240)));
 
                               //,
     //  ple(T_start=294.96)));
@@ -175,12 +177,6 @@ model FlexlabX1aNonG36NoDemandFlexibility
     annotation (Placement(transformation(extent={{360,416},{440,544}})));
   Modelica.Blocks.Math.Add add
     annotation (Placement(transformation(extent={{-124,446},{-144,466}})));
-  Modelica.Blocks.Sources.CombiTimeTable cooSetNoDf(
-    table=[0,3.3667; 5,3.3667; 5,2.2556; 6,2.2556; 6,1.7; 7,1.7; 7,0.0333; 22,
-        0.0333; 22,3.3667; 24,3.3667],
-    extrapolation=Modelica.Blocks.Types.Extrapolation.Periodic,
-    timeScale=3600) "cooling schedule for demand response"
-    annotation (Placement(transformation(extent={{-298,340},{-278,360}})));
   Modelica.Blocks.Sources.CombiTimeTable heaSetDR(
     table=[0,-5.5444; 5,-5.5444; 5,-3.3222; 6,-3.3222; 6,-1.6556; 7,-1.6556; 7,
         0.0111; 22,0.0111; 22,-5.5444; 24,-5.5444],
@@ -210,30 +206,36 @@ model FlexlabX1aNonG36NoDemandFlexibility
     annotation (Placement(transformation(extent={{-210,492},{-190,512}})));
   Test1.BaseClasses1.Eco_Enable_OAT eco_Enable_OAT
     annotation (Placement(transformation(extent={{-94,-122},{-74,-102}})));
+  Modelica.Blocks.Sources.CombiTimeTable dayMode(
+    table=[226,1; 227,2; 231,1; 233,2; 239,3; 246,1; 248,3; 255,2],
+    smoothness=Modelica.Blocks.Types.Smoothness.ConstantSegments,
+    extrapolation=Modelica.Blocks.Types.Extrapolation.HoldLastPoint,
+    timeScale=86400)
+    annotation (Placement(transformation(extent={{-496,432},{-476,452}})));
+  Modelica.Blocks.Sources.CombiTimeTable cooSetNoDf(
+    table=[0,3.3667; 5,3.3667; 5,2.2556; 6,2.2556; 6,1.7; 7,1.7; 7,0.0333; 22,
+        0.0333; 22,3.3667; 24,3.3667],
+    extrapolation=Modelica.Blocks.Types.Extrapolation.Periodic,
+    timeScale=3600) "cooling schedule for demand response"
+    annotation (Placement(transformation(extent={{-494,398},{-474,418}})));
   Modelica.Blocks.Sources.CombiTimeTable cooSetShed(
     table=[0,3.3667; 5,3.3667; 5,2.2556; 6,2.2556; 6,1.7; 7,1.7; 7,0.0333; 14,
         0.0333; 14,2.2556; 18,2.2556; 18,0.0333; 22,0.0333; 22,3.3667; 24,
         3.3667],
     extrapolation=Modelica.Blocks.Types.Extrapolation.Periodic,
     timeScale=3600) "cooling schedule for demand response"
-    annotation (Placement(transformation(extent={{-290,306},{-270,326}})));
+    annotation (Placement(transformation(extent={{-486,364},{-466,384}})));
   Modelica.Blocks.Sources.CombiTimeTable cooSetShift(
     table=[0,3.3667; 5,3.3667; 5,2.2556; 6,2.2556; 6,1.7; 7,1.7; 7,0.0333; 10,
         0.0333; 10,-1.0778; 14,-1.0778; 14,2.2556; 18,2.2556; 18,0.0333; 22,
         0.0333; 22,3.3667; 24,3.3667],
     extrapolation=Modelica.Blocks.Types.Extrapolation.Periodic,
     timeScale=3600) "cooling schedule for demand response"
-    annotation (Placement(transformation(extent={{-288,262},{-268,282}})));
-  BaseClasses.SetpointSwitch setpointSwitch
-    annotation (Placement(transformation(extent={{-214,290},{-194,310}})));
-  Modelica.Blocks.Sources.CombiTimeTable dayMode(
-    table=[226,1; 227,2; 231,1; 233,2; 239,3; 246,1; 248,3; 255,2],
-    smoothness=Modelica.Blocks.Types.Smoothness.ConstantSegments,
-    extrapolation=Modelica.Blocks.Types.Extrapolation.HoldLastPoint,
-    timeScale=86400)
-    annotation (Placement(transformation(extent={{-300,374},{-280,394}})));
+    annotation (Placement(transformation(extent={{-484,320},{-464,340}})));
   Modelica.Blocks.Math.RealToInteger realToInteger
-    annotation (Placement(transformation(extent={{-264,362},{-244,382}})));
+    annotation (Placement(transformation(extent={{-460,420},{-440,440}})));
+  BaseClasses.SetpointSwitch setpointSwitch
+    annotation (Placement(transformation(extent={{-410,348},{-390,368}})));
 equation
   connect(fanSup.port_b, dpDisSupFan.port_a) annotation (Line(
       points={{320,-40},{320,0},{320,-10},{320,-10}},
@@ -469,7 +471,7 @@ equation
           -104,-82},{-90,-82}},
                            color={0,0,127}));
   connect(conAHU.u_UnOcc, greater_unocc.y) annotation (Line(points={{355.6,
-          413.741},{-534,413.741},{-534,458},{-299,458}}, color={255,0,255}));
+          413.741},{-332,413.741},{-332,458},{-299,458}}, color={255,0,255}));
   connect(zonOutAirSet.nOcc, integerConstant.y) annotation (Line(points={{226,
           401},{188,401},{188,400},{-168,400},{-168,548},{-185,548}}, color={
           255,127,0}));
@@ -485,18 +487,19 @@ equation
   connect(eco_Enable_OAT.OutdoorDamperPosition, eco.yOut) annotation (Line(
         points={{-73,-110.2},{-56,-110.2},{-56,-64},{-40,-64},{-40,-34},{-10,
           -34}}, color={0,0,127}));
-  connect(cooSetNoDf.y[1], setpointSwitch.u1) annotation (Line(points={{-277,
-          350},{-216,350},{-216,301.6}}, color={0,0,127}));
-  connect(cooSetShed.y[1], setpointSwitch.u2) annotation (Line(points={{-269,
-          316},{-240,316},{-240,296.4},{-216,296.4}}, color={0,0,127}));
-  connect(cooSetShift.y[1], setpointSwitch.u3) annotation (Line(points={{-267,
-          272},{-240,272},{-240,291.4},{-216,291.4}}, color={0,0,127}));
-  connect(setpointSwitch.y, add.u2) annotation (Line(points={{-193,300},{-142,
-          300},{-142,314},{-90,314},{-90,450},{-122,450}}, color={0,0,127}));
-  connect(dayMode.y[1], realToInteger.u) annotation (Line(points={{-279,384},{
-          -279,372},{-266,372}}, color={0,0,127}));
-  connect(realToInteger.y, setpointSwitch.u) annotation (Line(points={{-243,372},
-          {-232,372},{-232,307.2},{-216,307.2}}, color={255,127,0}));
+  connect(dayMode.y[1],realToInteger. u) annotation (Line(points={{-475,442},{
+          -475,430},{-462,430}}, color={0,0,127}));
+  connect(cooSetNoDf.y[1],setpointSwitch. u1) annotation (Line(points={{-473,
+          408},{-432,408},{-432,359.6},{-412,359.6}},
+                                         color={0,0,127}));
+  connect(cooSetShed.y[1],setpointSwitch. u2) annotation (Line(points={{-465,
+          374},{-432,374},{-432,354.4},{-412,354.4}}, color={0,0,127}));
+  connect(cooSetShift.y[1],setpointSwitch. u3) annotation (Line(points={{-463,
+          330},{-432,330},{-432,349.4},{-412,349.4}}, color={0,0,127}));
+  connect(realToInteger.y,setpointSwitch. u) annotation (Line(points={{-439,430},
+          {-412,430},{-412,365.2}},              color={255,127,0}));
+  connect(setpointSwitch.y, add.u2) annotation (Line(points={{-389,358},{-248,
+          358},{-248,384},{-122,384},{-122,450}},          color={0,0,127}));
   annotation (
     Diagram(coordinateSystem(preserveAspectRatio=false,extent={{-380,-320},{1400,
             640}}), graphics={Line(
