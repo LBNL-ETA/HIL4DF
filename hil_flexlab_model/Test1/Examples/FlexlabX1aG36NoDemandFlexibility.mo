@@ -21,7 +21,10 @@ model FlexlabX1aG36NoDemandFlexibility
       ple(T_start=294.96)),
     weaDat(filNam=Modelica.Utilities.Files.loadResource("modelica://hil_flexlab_model/Resources/weatherdata/US_Berkeley_20210913.mos")),
     fanSup(addPowerToMedium=false),
-    souCoo(T=281.48));
+    souCoo(T=281.48),
+    nor(vav(dpDamper_nominal=0.25*240)),
+    cor(vav(dpDamper_nominal=0.25*240)),
+    sou(vav(dpDamper_nominal=0.25*240)));
 
                               //,
     //  ple(T_start=294.96)));
@@ -146,7 +149,7 @@ model FlexlabX1aG36NoDemandFlexibility
     outDamPhyPosMax=0.96,
     outDamPhyPosMin=0.3,
     pIniSet=120,
-    pMinSet=45,
+    pMinSet=25,
     final pMaxSet=250,
     pDelTim=300,
     pNumIgnReq=0,
@@ -154,13 +157,13 @@ model FlexlabX1aG36NoDemandFlexibility
     final yFanMin=yFanMin,
     final VPriSysMax_flow=VPriSysMax_flow,
     final peaSysPop=2*sum({0.05*AFlo[i] for i in 1:numZon}),
-    TSupSetMin=285.95,
+    TSupSetMin=284.85,
     TSupSetDes=285.95,
     TOutMin=363.15,
     TOutMax=368.15,
     iniSetSupTem=291.45,
     maxSetSupTem=291.45,
-    minSetSupTem=285.95,
+    minSetSupTem=284.85,
     delTimSupTem=300,
     numIgnReqSupTem=0,
     triAmoSupTem=0.0833,

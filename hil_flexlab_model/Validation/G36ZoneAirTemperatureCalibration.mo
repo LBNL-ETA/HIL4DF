@@ -6,7 +6,7 @@ model G36ZoneAirTemperatureCalibration
     package MediumPropyleneGlycol =
       Buildings.Media.Antifreeze.PropyleneGlycolWater (property_T=273.15+50, X_a=
             0.4);
-  Test1.ThermalZones.FloorG36 floorG36_1(
+  Test1.ThermalZones.Floor                                       floorG36_1(
     redeclare package Medium = MediumAir,
     idfName=Modelica.Utilities.Files.loadResource(
         "modelica://hil_flexlab_model/Resources/energyPlusFiles/X1-2021-V8_v2_NoInternalGain.idf"),

@@ -1,8 +1,11 @@
 Controller_G36
+Controller_G36_standardized
 EconomizerController
 DamperLimits
 Modulation
 TrimAndRespond
-SupplyFan
 TrimAndRespond_NoTrimWhileRespond
+SupplyFan
+SupplyFan_standardized
 SupplyTemperature
+SupplyTemperature_standardized

@@ -1,10 +1,10 @@
 within hil_flexlab_model.Test1.Examples;
 model FlexlabX1aNonG36LoadShed
   "DR mode - Variable air volume flow system with terminal reheat and five thermal zones at Flexlab X1 cell"
+
   extends Modelica.Icons.Example;
   extends
-    hil_flexlab_model.Test1.BaseClasses1.PartialFlexlab_Summer_2021_Test_NonG36
-    (
+    hil_flexlab_model.Test1.BaseClasses1.PartialFlexlab_Summer_2021_Test_NonG36(
     occSch(
       occupancy={0,86399},
       firstEntryOccupied=true,
@@ -14,19 +14,21 @@ model FlexlabX1aNonG36LoadShed
       cor(T_start=294.96),
       sou(T_start=294.96),
       idfName=Modelica.Utilities.Files.loadResource(
-          "modelica://hil_flexlab_model/Resources/energyPlusFiles/X1-2021-V8_v2_correctedInternalGain.idf"),
-
+          "modelica://hil_flexlab_model/Resources/energyPlusFiles/X1-2021-V8_v2_NoInternalGain.idf"),
       epwName=Modelica.Utilities.Files.loadResource(
           "modelica://hil_flexlab_model/Resources/weatherdata/US_Berkeley_20210913.epw"),
-
       weaName=Modelica.Utilities.Files.loadResource(
           "modelica://hil_flexlab_model/Resources/weatherdata/US_Berkeley_20210913.mos"),
-
       ele(T_start=294.96),
       clo(T_start=294.96),
       ple(T_start=294.96)),
     weaDat(filNam=Modelica.Utilities.Files.loadResource(
-          "modelica://hil_flexlab_model/Resources/weatherdata/US_Berkeley_20210913.mos")));
+          "modelica://hil_flexlab_model/Resources/weatherdata/US_Berkeley_20210913.mos")),
+    souCoo(T=281.48),
+    fanSup(addPowerToMedium=false),
+    nor(vav(dpDamper_nominal=0.25*240)),
+    cor(vav(dpDamper_nominal=0.25*240)),
+    sou(vav(dpDamper_nominal=0.25*240)));
 
                               //,
     //  ple(T_start=294.96)));
@@ -48,14 +50,15 @@ model FlexlabX1aNonG36LoadShed
     AFlo=AFloNor,
     final samplePeriod=samplePeriod,
     TiCoo=60,
+    kHea=0.5,
     TiHea=60,
     TiVal=60,
     TiDam=60,
     VDisCooSetMax_flow=mNor_flow_nominal/1.2,
     VDisSetMin_flow=0.0385/1.2,
-    VDisHeaSetMax_flow=0.0385/1.2,
+    VDisHeaSetMax_flow=0.1274/1.2,
     VDisConMin_flow=0.0385/1.2,
-    dTDisZonSetMax=5,
+    dTDisZonSetMax=17,
     TDisMin=285.95) "Controller for terminal unit north zone"
     annotation (Placement(transformation(extent={{654,4},{674,24}})));
   Plants1.Controls.Controller conVAVCor(
@@ -63,14 +66,15 @@ model FlexlabX1aNonG36LoadShed
     AFlo=AFloCor,
     final samplePeriod=samplePeriod,
     TiCoo=60,
+    kHea=0.5,
     TiHea=60,
     TiVal=60,
     TiDam=60,
     VDisCooSetMax_flow=mCor_flow_nominal/1.2,
     VDisSetMin_flow=0.0385/1.2,
-    VDisHeaSetMax_flow=0.0385/1.2,
+    VDisHeaSetMax_flow=0.1274/1.2,
     VDisConMin_flow=0.0385/1.2,
-    dTDisZonSetMax=5,
+    dTDisZonSetMax=17,
     TDisMin=285.95) "Controller for terminal unit mid zone"
     annotation (Placement(transformation(extent={{778,104},{798,124}})));
   Plants1.Controls.Controller conVAVSou(
@@ -78,15 +82,16 @@ model FlexlabX1aNonG36LoadShed
     AFlo=AFloSou,
     final samplePeriod=samplePeriod,
     TiCoo=60,
+    kHea=0.5,
     TiHea=60,
     TiVal=60,
     TiDam=60,
     VDisCooSetMax_flow=mSou_flow_nominal/1.2,
     VDisSetMin_flow=0.0595/1.2,
-    VDisHeaSetMax_flow=0.0595/1.2,
+    VDisHeaSetMax_flow=0.1274/1.2,
     VDisConMin_flow=0.0595/1.2,
-    dTDisZonSetMax=5,
-    TDisMin=285.95)               "Controller for terminal unit south zone"
+    dTDisZonSetMax=17,
+    TDisMin=285.95) "Controller for terminal unit south zone"
     annotation (Placement(transformation(extent={{1020,32},{1040,52}})));
   Modelica.Blocks.Routing.Multiplex3 TDis "Discharge air temperatures"
     annotation (Placement(transformation(extent={{110,276},{130,296}})));
@@ -144,22 +149,25 @@ model FlexlabX1aNonG36LoadShed
     samplePeriod=samplePeriod,
     retDamPhyPosMax=0.7,
     outDamPhyPosMin=0.3,
+    pIniSet=250,
     pMinSet=250,
     final pMaxSet=250,
+    pDelTim=300,
     pNumIgnReq=0,
     pTriAmo=0,
     pResAmo=0,
+    pMaxRes=0,
     final yFanMin=yFanMin,
     final VPriSysMax_flow=VPriSysMax_flow,
     final peaSysPop=2*sum({0.05*AFlo[i] for i in 1:numZon}),
     TSupSetMin=284.85,
-    TSupSetMax=285.95,
-    TSupSetDes=285.95,
-    TOutMin=291.45,
-    TOutMax=294.25,
-    iniSetSupTem=285.95,
-    maxSetSupTem=285.95,
-    minSetSupTem=285.95,
+    TSupSetMax=291.45,
+    TSupSetDes=284.85,
+    TOutMin=363.15,
+    TOutMax=368.15,
+    iniSetSupTem=284.85,
+    maxSetSupTem=284.85,
+    minSetSupTem=284.85,
     delTimSupTem=300,
     numIgnReqSupTem=0,
     triAmoSupTem=0,
@@ -196,17 +204,15 @@ model FlexlabX1aNonG36LoadShed
     annotation (Placement(transformation(extent={{-204,444},{-224,464}})));
   Plants1.Controls.ExhaustDamperPositionBlock exhaustDamperPositionBlock
     annotation (Placement(transformation(extent={{-88,-92},{-68,-72}})));
-  Modelica.Blocks.Sources.Constant const(k=0)
-    annotation (Placement(transformation(extent={{550,188},{570,208}})));
   Modelica.Blocks.Sources.BooleanConstant booleanConstant(k=false)
     annotation (Placement(transformation(extent={{-292,494},{-272,514}})));
-  Plants1.Controls.OutdoorDamperPositionBlock outdoorDamperPositionBlock
-    annotation (Placement(transformation(extent={{-76,-130},{-56,-110}})));
   Modelica.Blocks.Sources.IntegerConstant integerConstant[numZon](k=0)
     annotation (Placement(transformation(extent={{-206,538},{-186,558}})));
   Modelica.Blocks.Sources.BooleanConstant booleanConstant1
                                                          [numZon](k=false)
     annotation (Placement(transformation(extent={{-210,492},{-190,512}})));
+  BaseClasses1.Eco_Enable_OAT                                         eco_Enable_OAT
+    annotation (Placement(transformation(extent={{-94,-122},{-74,-102}})));
 equation
   connect(fanSup.port_b, dpDisSupFan.port_a) annotation (Line(
       points={{320,-40},{320,0},{320,-10},{320,-10}},
@@ -443,12 +449,6 @@ equation
     annotation (Line(points={{444,440.588},{448,440.588},{448,172},{-104,172},{
           -104,-82},{-90,-82}},
                            color={0,0,127}));
-  connect(eco.yOut, outdoorDamperPositionBlock.OutdoorDamperPosition)
-    annotation (Line(points={{-10,-34},{-10,-22},{-46,-22},{-46,-120},{-55,-120}},
-        color={0,0,127}));
-  connect(conAHU.yRetDamPos, outdoorDamperPositionBlock.ReturnDamperPosition)
-    annotation (Line(points={{444,440.588},{446,440.588},{446,172},{-106,172},{
-          -106,-120},{-78,-120}}, color={0,0,127}));
   connect(conAHU.u_UnOcc, greater_unocc.y) annotation (Line(points={{355.6,
           415.741},{-332,415.741},{-332,458},{-299,458}}, color={255,0,255}));
   connect(zonOutAirSet.nOcc, integerConstant.y) annotation (Line(points={{226,
@@ -457,6 +457,15 @@ equation
   connect(zonOutAirSet.uWin, booleanConstant1.y) annotation (Line(points={{226,
           398},{196,398},{196,396},{-178,396},{-178,502},{-189,502}}, color={
           255,0,255}));
+  connect(TOut.y,eco_Enable_OAT. TOut) annotation (Line(points={{-279,180},{-96,
+          180},{-96,-102}},                             color={0,0,127}));
+  connect(ecoHigCut.y,eco_Enable_OAT. TOutCut) annotation (Line(points={{88,482},
+          {104,482},{104,168},{-72,168},{-72,-8},{-96,-8},{-96,-24},{-104,-24},
+          {-104,-72},{-112,-72},{-112,-104},{-96,-104}},          color={0,0,
+          127}));
+  connect(eco_Enable_OAT.OutdoorDamperPosition, eco.yOut) annotation (Line(
+        points={{-73,-110.2},{-56,-110.2},{-56,-64},{-40,-64},{-40,-34},{-10,
+          -34}}, color={0,0,127}));
   annotation (
     Diagram(coordinateSystem(preserveAspectRatio=false,extent={{-380,-320},{1400,
             640}}), graphics={Line(
@@ -537,8 +546,8 @@ This is for
           "modelica://Buildings/Resources/Scripts/Dymola/Examples/VAVReheat/Guideline36.mos"
         "Simulate and plot"),
     experiment(
-      StartTime=21427200,
-      StopTime=21513600,
+      StartTime=19440000,
+      StopTime=21427200,
       Interval=60,
       Tolerance=1e-06,
       __Dymola_Algorithm="Dassl"));
