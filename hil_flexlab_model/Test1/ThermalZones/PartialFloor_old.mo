@@ -1,5 +1,5 @@
 within hil_flexlab_model.Test1.ThermalZones;
-partial model PartialFloor "Interface for a model of a floor of a building"
+partial model PartialFloor_old "Interface for a model of a floor of a building"
 
   replaceable package Medium = Modelica.Media.Interfaces.PartialMedium
     "Medium model for air" annotation (choicesAllMatching=true);
@@ -55,9 +55,45 @@ partial model PartialFloor "Interface for a model of a floor of a building"
     annotation (Placement(transformation(extent={{380,150},{400,170}}),
         iconTransformation(extent={{380,40},{400,60}})));
 
+  Modelica.Blocks.Interfaces.RealOutput p_rel
+    "Relative pressure signal of building static pressure" annotation (
+      Placement(transformation(
+        extent={{-10,-10},{10,10}},
+        rotation=180,
+        origin={-170,220}), iconTransformation(
+        extent={{-10,-10},{10,10}},
+        rotation=180,
+        origin={-90,50})));
+
   Buildings.BoundaryConditions.WeatherData.Bus weaBus "Weather bus" annotation (
      Placement(transformation(extent={{200,190},{220,210}}), iconTransformation(
           extent={{200,210},{220,230}})));
+
+  Buildings.Examples.VAVReheat.BaseClasses.RoomLeakage leaSou(
+    redeclare package Medium = Medium,
+    VRoo=VRooSou,
+    s=49.91/33.27,
+    azi=Buildings.Types.Azimuth.S,
+    final use_windPressure=use_windPressure)
+    "Model for air infiltration through the envelope"
+    annotation (Placement(transformation(extent={{-58,380},{-22,420}})));
+  Buildings.Examples.VAVReheat.BaseClasses.RoomLeakage leaPle(
+    redeclare package Medium = Medium,
+    VRoo=VRooEas,
+    s=33.27/49.91,
+    azi=Buildings.Types.Azimuth.E,
+    final use_windPressure=use_windPressure)
+    "Model for air infiltration through the envelope"
+    annotation (Placement(transformation(extent={{-58,340},{-22,380}})));
+
+  Buildings.Examples.VAVReheat.BaseClasses.RoomLeakage leaNor(
+    redeclare package Medium = Medium,
+    VRoo=VRooNor,
+    s=49.91/33.27,
+    azi=Buildings.Types.Azimuth.N,
+    final use_windPressure=use_windPressure)
+    "Model for air infiltration through the envelope"
+    annotation (Placement(transformation(extent={{-56,300},{-20,340}})));
 
   Modelica.Thermal.HeatTransfer.Sensors.TemperatureSensor temAirSou
     "Air temperature sensor"
@@ -77,9 +113,39 @@ partial model PartialFloor "Interface for a model of a floor of a building"
   Modelica.Blocks.Routing.Multiplex5 multiplex5_1
     annotation (Placement(transformation(extent={{340,280},{360,300}})));
 
+  Buildings.Fluid.Sensors.RelativePressure senRelPre(redeclare package Medium
+      =                                                                         Medium)
+    "Building pressure measurement"
+    annotation (Placement(transformation(extent={{60,240},{40,260}})));
+  Buildings.Fluid.Sources.Outside out(nPorts=1, redeclare package Medium = Medium)
+    annotation (Placement(transformation(extent={{-58,240},{-38,260}})));
+
   Modelica.Blocks.Routing.Multiplex3 multiplex3_1
     annotation (Placement(transformation(extent={{342,338},{362,358}})));
 equation
+  connect(weaBus, leaSou.weaBus) annotation (Line(
+      points={{210,200},{-80,200},{-80,400},{-58,400}},
+      color={255,204,51},
+      thickness=0.5,
+      smooth=Smooth.None));
+  connect(weaBus,leaPle. weaBus) annotation (Line(
+      points={{210,200},{-80,200},{-80,360},{-58,360}},
+      color={255,204,51},
+      thickness=0.5,
+      smooth=Smooth.None));
+  connect(weaBus, leaNor.weaBus) annotation (Line(
+      points={{210,200},{-80,200},{-80,320},{-56,320}},
+      color={255,204,51},
+      thickness=0.5,
+      smooth=Smooth.None));
+  connect(out.weaBus, weaBus) annotation (Line(
+      points={{-58,250.2},{-70,250.2},{-70,250},{-80,250},{-80,200},{210,200}},
+      color={255,204,51},
+      thickness=0.5,
+      smooth=Smooth.None), Text(
+      string="%second",
+      index=1,
+      extent={{6,3},{6,3}}));
   connect(temAirSou.T, multiplex5_1.u1[1]) annotation (Line(
       points={{311,350},{328,350},{328,300},{338,300}},
       color={0,0,127},
@@ -105,6 +171,16 @@ equation
       color={0,0,127},
       smooth=Smooth.None,
       pattern=LinePattern.Dash));
+  connect(senRelPre.p_rel, p_rel) annotation (Line(
+      points={{50,241},{50,220},{-170,220}},
+      color={0,0,127},
+      smooth=Smooth.None,
+      pattern=LinePattern.Dash));
+  connect(out.ports[1], senRelPre.port_b) annotation (Line(
+      points={{-38,250},{40,250}},
+      color={0,127,255},
+      smooth=Smooth.None,
+      thickness=0.5));
   connect(multiplex3_1.y, TRooAir) annotation (Line(points={{363,348},{370,348},
           {370,160},{390,160}}, color={0,0,127}));
   connect(temAirSou.T, multiplex3_1.u1[1])
@@ -146,4 +222,4 @@ First implementation.
 </li>
 </ul>
 </html>"));
-end PartialFloor;
+end PartialFloor_old;

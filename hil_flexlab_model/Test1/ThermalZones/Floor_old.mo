@@ -1,6 +1,7 @@
 within hil_flexlab_model.Test1.ThermalZones;
-model Floor "Model of a floor of the building"
-  extends hil_flexlab_model.Test1.ThermalZones.PartialFloor(
+model Floor_old "Model of a floor of the building"
+  extends hil_flexlab_model.Test1.ThermalZones.PartialFloor_old(
+    leaPle(s=6.49/9.33, azi=Buildings.Types.Azimuth.W),
     VRooCor=cor.V,
     VRooSou=sou.V,
     VRooNor=nor.V,
@@ -12,7 +13,9 @@ model Floor "Model of a floor of the building"
     AFloNor=nor.AFlo,
     AFloEas=ple.AFlo,
     AFloWes=clo.AFlo,
-    AFloEle=ele.AFlo);
+    AFloEle=ele.AFlo,
+    leaSou(s=6.49/3.05),
+    leaNor(s=6.49/3.23));
 
   //final parameter Modelica.Units.SI.Area AFlo=AFloCor + AFloSou + AFloNor "Total floor area";
   final parameter Modelica.Units.SI.Area AFlo=AFloCor + AFloSou + AFloNor + AFloWes +AFloEle "Total floor area";
@@ -38,7 +41,7 @@ model Floor "Model of a floor of the building"
   Modelica.Units.SI.Temperature TAirWes=clo.TAir "Air temperature west zone";
   Buildings.ThermalZones.EnergyPlus_9_6_0.ThermalZone           sou(
     redeclare package Medium = Medium,
-    nPorts=4,
+    nPorts=2,
     zoneName="FlexLab-X3-ZoneA-South-Zone Thermal Zone")
                                "South zone" annotation (Placement(
         transformation(extent={{144,-44},{184,-4}})));
@@ -50,7 +53,7 @@ model Floor "Model of a floor of the building"
         transformation(extent={{300,68},{340,108}})));
   Buildings.ThermalZones.EnergyPlus_9_6_0.ThermalZone           nor(
     redeclare package Medium = Medium,
-    nPorts=4,
+    nPorts=2,
     zoneName="FlexLab-X3-ZoneA-North-Zone Thermal Zone")
                                "North zone" annotation (Placement(
         transformation(extent={{144,116},{184,156}})));
@@ -128,66 +131,6 @@ model Floor "Model of a floor of the building"
     annotation (Placement(transformation(extent={{-170,-186},{-150,-166}})));
   Modelica.Blocks.Routing.Multiplex3 multiplex3_2
     annotation (Placement(transformation(extent={{-110,-154},{-90,-134}})));
-  Buildings.Fluid.FixedResistances.PressureDrop duc1(
-    redeclare package Medium = Medium,
-    allowFlowReversal=false,
-    linearized=true,
-    from_dp=true,
-    dp_nominal=100,
-    m_flow_nominal=0.05)
-    "Duct resistance (to decouple room and outside pressure)"
-    annotation (Placement(transformation(extent={{-68,298},{-88,318}})));
-  Buildings.Fluid.Sources.MassFlowSource_WeatherData freshAir1(
-    redeclare package Medium = Medium,
-    use_m_flow_in=true,
-    nPorts=1) "Outside air supply"
-    annotation (Placement(transformation(extent={{-92,248},{-72,268}})));
-  BaseClasses.Infiltration_DesignFlowRate infiltration_DesignFlowRate1(schFra=
-        0.25, desFloRat=0.02573/2)
-    annotation (Placement(transformation(extent={{-194,260},{-174,280}})));
-  Buildings.Fluid.Sources.Boundary_pT pAtm1(redeclare package Medium = Medium,
-      nPorts=1)              "Boundary condition"
-    annotation (Placement(transformation(extent={{-196,300},{-176,320}})));
-  Buildings.Fluid.FixedResistances.PressureDrop duc2(
-    redeclare package Medium = Medium,
-    allowFlowReversal=false,
-    linearized=true,
-    from_dp=true,
-    dp_nominal=100,
-    m_flow_nominal=0.05)
-    "Duct resistance (to decouple room and outside pressure)"
-    annotation (Placement(transformation(extent={{-84,422},{-104,442}})));
-  Buildings.Fluid.Sources.MassFlowSource_WeatherData freshAir2(
-    redeclare package Medium = Medium,
-    use_m_flow_in=true,
-    nPorts=1) "Outside air supply"
-    annotation (Placement(transformation(extent={{-108,372},{-88,392}})));
-  BaseClasses.Infiltration_DesignFlowRate    infiltration_DesignFlowRate2(schFra=
-        0.25, desFloRat=0.008572/2)
-    annotation (Placement(transformation(extent={{-210,384},{-190,404}})));
-  Buildings.Fluid.Sources.Boundary_pT pAtm2(redeclare package Medium = Medium,
-      nPorts=1)              "Boundary condition"
-    annotation (Placement(transformation(extent={{-212,424},{-192,444}})));
-  Buildings.Fluid.FixedResistances.PressureDrop duc3(
-    redeclare package Medium = Medium,
-    allowFlowReversal=false,
-    linearized=true,
-    from_dp=true,
-    dp_nominal=100,
-    m_flow_nominal=0.05)
-    "Duct resistance (to decouple room and outside pressure)"
-    annotation (Placement(transformation(extent={{-112,516},{-132,536}})));
-  Buildings.Fluid.Sources.MassFlowSource_WeatherData freshAir3(
-    redeclare package Medium = Medium,
-    use_m_flow_in=true,
-    nPorts=1) "Outside air supply"
-    annotation (Placement(transformation(extent={{-136,466},{-116,486}})));
-  BaseClasses.Infiltration_DesignFlowRate    infiltration_DesignFlowRate3(schFra=
-        0.25, desFloRat=0.01818/2)
-    annotation (Placement(transformation(extent={{-238,478},{-218,498}})));
-  Buildings.Fluid.Sources.Boundary_pT pAtm3(redeclare package Medium = Medium,
-      nPorts=1)              "Boundary condition"
-    annotation (Placement(transformation(extent={{-240,518},{-220,538}})));
 protected
   inner Buildings.ThermalZones.EnergyPlus_9_6_0.Building           building(
     idfName=idfName,
@@ -255,31 +198,34 @@ equation
   connect(cor.heaPorAir,temAirCor.port)
     annotation (Line(points={{164,80},{164,228},{294,228}},color={191,0,0},smooth=Smooth.None));
   connect(sou.ports[1],portsSou[1])
-    annotation (Line(points={{162.5,-43.1},{164,-43.1},{164,-54},{86,-54},{86,-36},
+    annotation (Line(points={{163,-43.1},{164,-43.1},{164,-54},{86,-54},{86,-36},
           {85,-36}},                                                                         color={0,127,255},smooth=Smooth.None));
   connect(sou.ports[2],portsSou[2])
-    annotation (Line(points={{163.5,-43.1},{166,-43.1},{166,-50},{88,-50},{88,-36},
+    annotation (Line(points={{165,-43.1},{166,-43.1},{166,-50},{88,-50},{88,-36},
           {95,-36}},                                                                          color={0,127,255},smooth=Smooth.None));
   connect(ple.ports[1],portsEas[1])
     annotation (Line(points={{319,68.9},{300,68.9},{300,36},{325,36}},  color={0,127,255},smooth=Smooth.None,thickness=0.5));
   connect(ple.ports[2],portsEas[2])
     annotation (Line(points={{321,68.9},{300,68.9},{300,36},{335,36}},  color={0,127,255},smooth=Smooth.None,thickness=0.5));
   connect(nor.ports[1],portsNor[1])
-    annotation (Line(points={{162.5,116.9},{164,116.9},{164,104},{88,104},{88,124},
+    annotation (Line(points={{163,116.9},{164,116.9},{164,104},{88,104},{88,124},
           {85,124}},                                                                         color={0,127,255},smooth=Smooth.None));
   connect(nor.ports[2],portsNor[2])
-    annotation (Line(points={{163.5,116.9},{164,116.9},{164,110},{88,110},{88,124},
+    annotation (Line(points={{165,116.9},{164,116.9},{164,110},{88,110},{88,124},
           {95,124}},                                                                          color={0,127,255},smooth=Smooth.None));
   connect(clo.ports[1],portsWes[1])
     annotation (Line(points={{31,58.9},{30,58.9},{30,44},{-35,44}},  color={0,127,255},smooth=Smooth.None));
   connect(clo.ports[2],portsWes[2])
     annotation (Line(points={{33,58.9},{-2,58.9},{-2,44},{-25,44}},  color={0,127,255},smooth=Smooth.None));
   connect(cor.ports[1],portsCor[1])
-    annotation (Line(points={{162.5,60.9},{164,60.9},{164,26},{90,26},{90,46},{85,
-          46}},                                                                          color={0,127,255},smooth=Smooth.None));
+    annotation (Line(points={{162.5,60.9},{164,60.9},{164,26},{90,26},{90,46},{
+          85,46}},                                                                       color={0,127,255},smooth=Smooth.None));
   connect(cor.ports[2],portsCor[2])
-    annotation (Line(points={{163.5,60.9},{164,60.9},{164,32},{90,32},{90,46},{95,
-          46}},                                                                           color={0,127,255},smooth=Smooth.None));
+    annotation (Line(points={{163.5,60.9},{164,60.9},{164,32},{90,32},{90,46},{
+          95,46}},                                                                        color={0,127,255},smooth=Smooth.None));
+  connect(cor.ports[4], senRelPre.port_a)
+    annotation (Line(points={{165.5,60.9},{164,60.9},{164,24},{128,24},{128,250},
+          {60,250}},                                                                         color={0,127,255},smooth=Smooth.None,thickness=0.5));
   connect(clo.qGai_flow,qGai_flow.y)
     annotation (Line(points={{10,88},{4,88},{4,112},{-60,112},{-60,20},{-188,20}},
                                                                     color={0,0,127}));
@@ -343,72 +289,6 @@ equation
           -56,-144},{-56,-20},{60,-20},{60,-14},{142,-14}}, color={0,0,127}));
   connect(pluSch.y[1], plgGai.u[1]) annotation (Line(points={{-291,-132},{-236,
           -132},{-236,-142},{-224,-142}}, color={0,0,127}));
-  connect(duc1.port_b, pAtm1.ports[1])
-    annotation (Line(points={{-88,308},{-156,308},{-156,310},{-176,310}},
-                                                 color={0,127,255}));
-  connect(infiltration_DesignFlowRate1.infFloRat, freshAir1.m_flow_in)
-    annotation (Line(points={{-172,270},{-168,270},{-168,266},{-92,266}}, color
-        ={0,0,127}));
-  connect(duc2.port_b,pAtm2. ports[1])
-    annotation (Line(points={{-104,432},{-172,432},{-172,434},{-192,434}},
-                                                 color={0,127,255}));
-  connect(infiltration_DesignFlowRate2.infFloRat, freshAir2.m_flow_in)
-    annotation (Line(points={{-188,394},{-184,394},{-184,390},{-108,390}},
-        color={0,0,127}));
-  connect(duc3.port_b,pAtm3. ports[1])
-    annotation (Line(points={{-132,526},{-200,526},{-200,528},{-220,528}},
-                                                 color={0,127,255}));
-  connect(infiltration_DesignFlowRate3.infFloRat, freshAir3.m_flow_in)
-    annotation (Line(points={{-216,488},{-212,488},{-212,484},{-136,484}},
-        color={0,0,127}));
-  connect(sou.ports[3], freshAir1.ports[1]) annotation (Line(points={{164.5,-43.1},
-          {164.5,-104},{-30,-104},{-30,258},{-72,258}}, color={0,127,255}));
-  connect(sou.ports[4], duc1.port_a) annotation (Line(points={{165.5,-43.1},{165.5,
-          -148},{-12,-148},{-12,308},{-68,308}}, color={0,127,255}));
-  connect(cor.ports[3], freshAir2.ports[1]) annotation (Line(points={{164.5,60.9},
-          {164.5,22},{-46,22},{-46,382},{-88,382}}, color={0,127,255}));
-  connect(cor.ports[4], duc2.port_a) annotation (Line(points={{165.5,60.9},{62,60.9},
-          {62,10},{-40,10},{-40,432},{-84,432}}, color={0,127,255}));
-  connect(nor.ports[3], freshAir3.ports[1]) annotation (Line(points={{164.5,116.9},
-          {164.5,116},{24,116},{24,476},{-116,476}}, color={0,127,255}));
-  connect(nor.ports[4], duc3.port_a) annotation (Line(points={{165.5,116.9},{165.5,
-          102},{32,102},{32,526},{-112,526}}, color={0,127,255}));
-  connect(infiltration_DesignFlowRate1.zonAirTem, sou.TAir) annotation (Line(
-        points={{-196,274.2},{-234,274.2},{-234,-86},{262,-86},{262,-6},{185,-6}},
-        color={0,0,127}));
-  connect(infiltration_DesignFlowRate2.zonAirTem, cor.TAir) annotation (Line(
-        points={{-212,398.2},{-238,398.2},{-238,396},{-264,396},{-264,-86},{252,
-          -86},{252,98},{185,98}}, color={0,0,127}));
-  connect(infiltration_DesignFlowRate3.zonAirTem, nor.TAir) annotation (Line(
-        points={{-240,492.2},{-260,492.2},{-260,496},{-272,496},{-272,-80},{258,
-          -80},{258,154},{185,154}}, color={0,0,127}));
-  connect(weaBus, infiltration_DesignFlowRate1.weaBus) annotation (Line(
-      points={{210,200},{-6,200},{-6,174},{-194.4,174},{-194.4,264.6}},
-      color={255,204,51},
-      thickness=0.5));
-  connect(weaBus, freshAir1.weaBus) annotation (Line(
-      points={{210,200},{56,200},{56,176},{-92,176},{-92,258.2}},
-      color={255,204,51},
-      thickness=0.5));
-  connect(weaBus,infiltration_DesignFlowRate2. weaBus) annotation (Line(
-      points={{210,200},{6,200},{6,192},{-210.4,192},{-210.4,388.6}},
-      color={255,204,51},
-      thickness=0.5));
-  connect(weaBus, freshAir2.weaBus) annotation (Line(
-      points={{210,200},{22,200},{22,176},{-158,176},{-158,382.2},{-108,382.2}},
-      color={255,204,51},
-      thickness=0.5));
-
-  connect(weaBus,infiltration_DesignFlowRate3. weaBus) annotation (Line(
-      points={{210,200},{-10,200},{-10,192},{-242,192},{-242,482.6},{-238.4,482.6}},
-      color={255,204,51},
-      thickness=0.5));
-
-  connect(weaBus, freshAir3.weaBus) annotation (Line(
-      points={{210,200},{18,200},{18,228},{-162,228},{-162,476.2},{-136,476.2}},
-      color={255,204,51},
-      thickness=0.5));
-
   annotation (
     Diagram(
       coordinateSystem(
@@ -588,4 +468,4 @@ to be parameters does not imply that the whole record has the variability of a p
       StopTime=86400,
       Interval=60,
       __Dymola_Algorithm="Dassl"));
-end Floor;
+end Floor_old;
