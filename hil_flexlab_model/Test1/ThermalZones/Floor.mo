@@ -82,13 +82,13 @@ model Floor "Model of a floor of the building"
     "modelica://Buildings/Resources/weatherdata/USA_IL_Chicago-OHare.Intl.AP.725300_TMY3.mos")
     "Name of the weather file";
 
-  Modelica.Thermal.HeatTransfer.Components.HeatCapacitor heatCapacitorSou(C=10*
+  Modelica.Thermal.HeatTransfer.Components.HeatCapacitor heatCapacitorSou(C=50*
         VRooSou*1005*1.2)
     annotation (Placement(transformation(extent={{202,-66},{222,-46}})));
-  Modelica.Thermal.HeatTransfer.Components.HeatCapacitor heatCapacitorCor(C=10*
+  Modelica.Thermal.HeatTransfer.Components.HeatCapacitor heatCapacitorCor(C=30*
         VRooCor*1005*1.2)
     annotation (Placement(transformation(extent={{186,26},{206,46}})));
-  Modelica.Thermal.HeatTransfer.Components.HeatCapacitor heatCapacitorNor(C=10*
+  Modelica.Thermal.HeatTransfer.Components.HeatCapacitor heatCapacitorNor(C=30*
         VRooNor*1005*1.2)
     annotation (Placement(transformation(extent={{198,142},{218,162}})));
   Modelica.Blocks.Sources.CombiTimeTable ligSch(
@@ -111,7 +111,7 @@ model Floor "Model of a floor of the building"
     extrapolation=Modelica.Blocks.Types.Extrapolation.Periodic)
     "internal heat gain from occupant"
     annotation (Placement(transformation(extent={{-292,-186},{-272,-166}})));
-  Modelica.Blocks.Math.MatrixGain ligGai(K=10*[0.9; 0.1; 0])
+  Modelica.Blocks.Math.MatrixGain ligGai(K=10*[0.5; 0.5; 0])
     "Matrix gain to split up heat gain in radiant, convective and latent gain"
     annotation (Placement(transformation(extent={{-218,-114},{-198,-94}})));
   Modelica.Blocks.Math.MatrixGain plgGai(K=10*[0.5; 0.5; 0])
@@ -143,7 +143,7 @@ model Floor "Model of a floor of the building"
     nPorts=1) "Outside air supply"
     annotation (Placement(transformation(extent={{-92,248},{-72,268}})));
   BaseClasses.Infiltration_DesignFlowRate infiltration_DesignFlowRate1(schFra=
-        0.25, desFloRat=0.02573/2)
+        0.25, desFloRat=0.02573)
     annotation (Placement(transformation(extent={{-194,260},{-174,280}})));
   Buildings.Fluid.Sources.Boundary_pT pAtm1(redeclare package Medium = Medium,
       nPorts=1)              "Boundary condition"
@@ -163,7 +163,7 @@ model Floor "Model of a floor of the building"
     nPorts=1) "Outside air supply"
     annotation (Placement(transformation(extent={{-108,372},{-88,392}})));
   BaseClasses.Infiltration_DesignFlowRate    infiltration_DesignFlowRate2(schFra=
-        0.25, desFloRat=0.008572/2)
+        0.25, desFloRat=0.008572)
     annotation (Placement(transformation(extent={{-210,384},{-190,404}})));
   Buildings.Fluid.Sources.Boundary_pT pAtm2(redeclare package Medium = Medium,
       nPorts=1)              "Boundary condition"
@@ -183,7 +183,7 @@ model Floor "Model of a floor of the building"
     nPorts=1) "Outside air supply"
     annotation (Placement(transformation(extent={{-136,466},{-116,486}})));
   BaseClasses.Infiltration_DesignFlowRate    infiltration_DesignFlowRate3(schFra=
-        0.25, desFloRat=0.01818/2)
+        0.25, desFloRat=0.01818)
     annotation (Placement(transformation(extent={{-238,478},{-218,498}})));
   Buildings.Fluid.Sources.Boundary_pT pAtm3(redeclare package Medium = Medium,
       nPorts=1)              "Boundary condition"
@@ -380,8 +380,8 @@ equation
         points={{-212,398.2},{-238,398.2},{-238,396},{-264,396},{-264,-86},{252,
           -86},{252,98},{185,98}}, color={0,0,127}));
   connect(infiltration_DesignFlowRate3.zonAirTem, nor.TAir) annotation (Line(
-        points={{-240,492.2},{-260,492.2},{-260,496},{-272,496},{-272,-80},{258,
-          -80},{258,154},{185,154}}, color={0,0,127}));
+        points={{-240,492.2},{-258,492.2},{-258,494},{-270,494},{-270,-82},{260,
+          -82},{260,154},{185,154}}, color={0,0,127}));
   connect(weaBus, infiltration_DesignFlowRate1.weaBus) annotation (Line(
       points={{210,200},{-6,200},{-6,174},{-194.4,174},{-194.4,264.6}},
       color={255,204,51},

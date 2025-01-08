@@ -79,7 +79,7 @@ model ZoneAirTemperatureCalibration1B
     fileName="/home/huangwp/LBNL_work/HIL/convert_csv_to_txt/txt_files/1B_VAV_Core_Zone_Discharge_Air_Temperature.txt",
     smoothness=Modelica.Blocks.Types.Smoothness.LinearSegments,
     extrapolation=Modelica.Blocks.Types.Extrapolation.HoldLastPoint)
-    annotation (Placement(transformation(extent={{-208,-32},{-188,-12}})));
+    annotation (Placement(transformation(extent={{-236,-44},{-216,-24}})));
   Modelica.Blocks.Sources.CombiTimeTable souFloTab(
     tableOnFile=true,
     tableName="tab1",
@@ -95,11 +95,11 @@ model ZoneAirTemperatureCalibration1B
     extrapolation=Modelica.Blocks.Types.Extrapolation.HoldLastPoint)
     annotation (Placement(transformation(extent={{-168,-80},{-148,-60}})));
 
-  Modelica.Blocks.Math.Gain gain(k=1/1765.73)
+  Modelica.Blocks.Math.Gain gain(k=1.2)
     annotation (Placement(transformation(extent={{-190,76},{-170,96}})));
-  Modelica.Blocks.Math.Gain gain1(k=1/1765.73)
+  Modelica.Blocks.Math.Gain gain1(k=1.2)
     annotation (Placement(transformation(extent={{-176,14},{-156,34}})));
-  Modelica.Blocks.Math.Gain gain2(k=1/1765.73)
+  Modelica.Blocks.Math.Gain gain2(k=1.2)
     annotation (Placement(transformation(extent={{-136,-36},{-116,-16}})));
   Modelica.Blocks.Sources.CombiTimeTable norRooTem(
     tableOnFile=true,
@@ -129,6 +129,12 @@ model ZoneAirTemperatureCalibration1B
     smoothness=Modelica.Blocks.Types.Smoothness.LinearSegments,
     extrapolation=Modelica.Blocks.Types.Extrapolation.HoldLastPoint)
     annotation (Placement(transformation(extent={{-34,-88},{-14,-68}})));
+  Modelica.Blocks.Math.UnitConversions.From_degC from_degC
+    annotation (Placement(transformation(extent={{-186,40},{-166,60}})));
+  Modelica.Blocks.Math.UnitConversions.From_degC from_degC1
+    annotation (Placement(transformation(extent={{-202,-36},{-182,-16}})));
+  Modelica.Blocks.Math.UnitConversions.From_degC from_degC2
+    annotation (Placement(transformation(extent={{-132,-90},{-112,-70}})));
 equation
   connect(weaDat.weaBus, floorG36_1.weaBus) annotation (Line(
       points={{-78,72},{0,72},{0,77.5385},{9.34783,77.5385}},
@@ -167,13 +173,18 @@ equation
           {-150,18},{-142,18}}, color={0,0,127}));
   connect(gain2.y, souFlo.m_flow_in) annotation (Line(points={{-115,-26},{-108,-26},
           {-108,-22},{-104,-22}}, color={0,0,127}));
-  connect(norTemTab.y[1], norFlo.T_in) annotation (Line(points={{-201,46},{-162,
-          46},{-162,60},{-154,60}}, color={0,0,127}));
-  connect(corTemTab.y[1], corFlo.T_in) annotation (Line(points={{-187,-22},{-154,
-          -22},{-154,8},{-152,8},{-152,14},{-142,14}}, color={0,0,127}));
-  connect(souTemTab.y[1], souFlo.T_in) annotation (Line(points={{-147,-70},{-112,
-          -70},{-112,-40},{-110,-40},{-110,-14},{-104,-14},{-104,-26}}, color={0,
-          0,127}));
+  connect(norTemTab.y[1], from_degC.u) annotation (Line(points={{-201,46},{-194,
+          46},{-194,50},{-188,50}}, color={0,0,127}));
+  connect(from_degC.y, norFlo.T_in) annotation (Line(points={{-165,50},{-160,50},
+          {-160,60},{-154,60}}, color={0,0,127}));
+  connect(from_degC1.y, corFlo.T_in) annotation (Line(points={{-181,-26},{-176,
+          -26},{-176,8},{-150,8},{-150,14},{-142,14}}, color={0,0,127}));
+  connect(corTemTab.y[1], from_degC1.u) annotation (Line(points={{-215,-34},{
+          -210,-34},{-210,-26},{-204,-26}}, color={0,0,127}));
+  connect(souTemTab.y[1], from_degC2.u) annotation (Line(points={{-147,-70},{
+          -142,-70},{-142,-80},{-134,-80}}, color={0,0,127}));
+  connect(from_degC2.y, souFlo.T_in) annotation (Line(points={{-111,-80},{-76,
+          -80},{-76,-14},{-104,-14},{-104,-26}}, color={0,0,127}));
   annotation (Icon(coordinateSystem(preserveAspectRatio=false)), Diagram(
         coordinateSystem(preserveAspectRatio=false)),
     experiment(

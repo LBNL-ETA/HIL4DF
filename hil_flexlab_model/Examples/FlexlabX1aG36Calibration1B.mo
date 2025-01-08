@@ -1,5 +1,5 @@
-within hil_flexlab_model.Test1.Examples;
-model FlexlabX1aG36NoDemandFlexibility
+within hil_flexlab_model.Examples;
+model FlexlabX1aG36Calibration1B
   "DR mode - Variable air volume flow system with terminal reheat and five thermal zones at Flexlab X1 cell"
   extends Modelica.Icons.Example;
   extends
@@ -173,12 +173,6 @@ model FlexlabX1aG36NoDemandFlexibility
     annotation (Placement(transformation(extent={{360,418},{440,546}})));
   Modelica.Blocks.Math.Add add
     annotation (Placement(transformation(extent={{-124,446},{-144,466}})));
-  Modelica.Blocks.Sources.CombiTimeTable cooSetDR(
-    table=[0,3.3667; 5,3.3667; 5,2.2556; 6,2.2556; 6,1.7; 7,1.7; 7,0.0333; 22,
-        0.0333; 22,3.3667; 24,3.3667],
-    extrapolation=Modelica.Blocks.Types.Extrapolation.Periodic,
-    timeScale=3600) "cooling schedule for demand response"
-    annotation (Placement(transformation(extent={{-148,400},{-128,420}})));
   Modelica.Blocks.Sources.CombiTimeTable heaSetDR(
     table=[0,-5.5444; 5,-5.5444; 5,-3.3222; 6,-3.3222; 6,-1.6556; 7,-1.6556; 7,
         0.0111; 22,0.0111; 22,-5.5444; 24,-5.5444],
@@ -201,7 +195,7 @@ model FlexlabX1aG36NoDemandFlexibility
     annotation (Placement(transformation(extent={{-88,-92},{-68,-72}})));
   Modelica.Blocks.Sources.BooleanConstant booleanConstant(k=false)
     annotation (Placement(transformation(extent={{-292,494},{-272,514}})));
-  BaseClasses1.Eco_Enable_OAT                                         eco_Enable_OAT
+  Test1.BaseClasses1.Eco_Enable_OAT eco_Enable_OAT
     annotation (Placement(transformation(extent={{-76,-130},{-56,-110}})));
   Modelica.Blocks.Sources.IntegerConstant integerConstant[numZon](k=0)
     annotation (Placement(transformation(extent={{-206,538},{-186,558}})));
@@ -209,6 +203,36 @@ model FlexlabX1aG36NoDemandFlexibility
                                                          [numZon](k=false)
     annotation (Placement(transformation(extent={{-210,492},{-190,512}})));
 
+  Modelica.Blocks.Sources.CombiTimeTable dayMode(
+    table=[226,1; 231,2; 235,1; 237,3; 244,1; 246,3; 252,2],
+    smoothness=Modelica.Blocks.Types.Smoothness.ConstantSegments,
+    extrapolation=Modelica.Blocks.Types.Extrapolation.HoldLastPoint,
+    timeScale=86400)
+    annotation (Placement(transformation(extent={{-652,464},{-632,484}})));
+  Modelica.Blocks.Sources.CombiTimeTable cooSetNoDf(
+    table=[0,3.3667; 5,3.3667; 5,2.2556; 6,2.2556; 6,1.7; 7,1.7; 7,0.0333; 22,
+        0.0333; 22,3.3667; 24,3.3667],
+    extrapolation=Modelica.Blocks.Types.Extrapolation.Periodic,
+    timeScale=3600) "cooling schedule for demand response"
+    annotation (Placement(transformation(extent={{-650,430},{-630,450}})));
+  Modelica.Blocks.Sources.CombiTimeTable cooSetShed(
+    table=[0,3.3667; 5,3.3667; 5,2.2556; 6,2.2556; 6,1.7; 7,1.7; 7,0.0333; 14,
+        0.0333; 14,2.2556; 18,2.2556; 18,0.0333; 22,0.0333; 22,3.3667; 24,
+        3.3667],
+    extrapolation=Modelica.Blocks.Types.Extrapolation.Periodic,
+    timeScale=3600) "cooling schedule for demand response"
+    annotation (Placement(transformation(extent={{-642,396},{-622,416}})));
+  Modelica.Blocks.Sources.CombiTimeTable cooSetShift(
+    table=[0,3.3667; 5,3.3667; 5,2.2556; 6,2.2556; 6,1.7; 7,1.7; 7,0.0333; 10,
+        0.0333; 10,-1.0778; 14,-1.0778; 14,2.2556; 18,2.2556; 18,0.0333; 22,
+        0.0333; 22,3.3667; 24,3.3667],
+    extrapolation=Modelica.Blocks.Types.Extrapolation.Periodic,
+    timeScale=3600) "cooling schedule for demand response"
+    annotation (Placement(transformation(extent={{-640,352},{-620,372}})));
+  Modelica.Blocks.Math.RealToInteger realToInteger
+    annotation (Placement(transformation(extent={{-616,452},{-596,472}})));
+  BaseClasses.SetpointSwitch setpointSwitch
+    annotation (Placement(transformation(extent={{-566,380},{-546,400}})));
 equation
   connect(fanSup.port_b, dpDisSupFan.port_a) annotation (Line(
       points={{320,-40},{320,0},{320,-10},{320,-10}},
@@ -387,8 +411,6 @@ equation
           {770,110},{770,74},{924,74},{924,60},{866,60}},color={0,0,127}));
   connect(conVAVSou.yDam_actual, sou.y_actual) annotation (Line(points={{1018,38},
           {1012,38},{1012,68},{1126,68},{1126,52},{1112,52}}, color={0,0,127}));
-  connect(cooSetDR.y[1], add.u2) annotation (Line(points={{-127,410},{-92,410},
-          {-92,450},{-122,450}}, color={0,0,127}));
   connect(TZonSet[1].TZonCooSet, add.u1) annotation (Line(points={{-10,339},{8,
           339},{8,462},{-122,462}}, color={0,0,127}));
   connect(add.y, conVAVSou.TZonCooSet) annotation (Line(points={{-145,456},{
@@ -461,6 +483,20 @@ equation
   connect(conAHU.yCoo, gaiCooCoi.u) annotation (Line(points={{444,451.882},{532,
           451.882},{532,-958},{152,-958},{152,-176},{186,-176}},
                                                      color={0,0,127}));
+  connect(dayMode.y[1],realToInteger. u) annotation (Line(points={{-631,474},{
+          -631,462},{-618,462}}, color={0,0,127}));
+  connect(cooSetNoDf.y[1],setpointSwitch. u1) annotation (Line(points={{-629,
+          440},{-592,440},{-592,391.6},{-568,391.6}},
+                                         color={0,0,127}));
+  connect(cooSetShed.y[1],setpointSwitch. u2) annotation (Line(points={{-621,
+          406},{-592,406},{-592,386.4},{-568,386.4}}, color={0,0,127}));
+  connect(cooSetShift.y[1],setpointSwitch. u3) annotation (Line(points={{-619,
+          362},{-592,362},{-592,381.4},{-568,381.4}}, color={0,0,127}));
+  connect(realToInteger.y,setpointSwitch. u) annotation (Line(points={{-595,462},
+          {-568,462},{-568,397.2}},              color={255,127,0}));
+  connect(setpointSwitch.y, add.u2) annotation (Line(points={{-545,390},{-272,
+          390},{-272,384},{-112,384},{-112,408},{-96,408},{-96,450},{-122,450}},
+                                                           color={0,0,127}));
   annotation (
     Diagram(coordinateSystem(preserveAspectRatio=false,extent={{-380,-320},{1400,
             640}}), graphics={Line(
@@ -546,4 +582,4 @@ This is for
       Interval=60,
       Tolerance=1e-06,
       __Dymola_Algorithm="Dassl"));
-end FlexlabX1aG36NoDemandFlexibility;
+end FlexlabX1aG36Calibration1B;

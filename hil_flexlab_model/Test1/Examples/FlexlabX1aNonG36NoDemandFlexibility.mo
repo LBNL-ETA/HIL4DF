@@ -546,7 +546,7 @@ This is for
         "Simulate and plot"),
     experiment(
       StartTime=19440000,
-      StopTime=21427200,
+      StopTime=22204800,
       Interval=60,
       Tolerance=1e-06,
       __Dymola_Algorithm="Dassl"));

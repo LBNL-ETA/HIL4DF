@@ -77,7 +77,7 @@
 
 !-   ===========  ALL OBJECTS IN CLASS: TIMESTEP ===========
 
-  Timestep,6;
+  Timestep,8;
 
 !-   ===========  ALL OBJECTS IN CLASS: CONVERGENCELIMITS ===========
 
