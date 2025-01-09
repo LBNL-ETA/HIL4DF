@@ -82,13 +82,13 @@ model Floor "Model of a floor of the building"
     "modelica://Buildings/Resources/weatherdata/USA_IL_Chicago-OHare.Intl.AP.725300_TMY3.mos")
     "Name of the weather file";
 
-  Modelica.Thermal.HeatTransfer.Components.HeatCapacitor heatCapacitorSou(C=50*
+  Modelica.Thermal.HeatTransfer.Components.HeatCapacitor heatCapacitorSou(C=10*
         VRooSou*1005*1.2)
     annotation (Placement(transformation(extent={{202,-66},{222,-46}})));
-  Modelica.Thermal.HeatTransfer.Components.HeatCapacitor heatCapacitorCor(C=30*
+  Modelica.Thermal.HeatTransfer.Components.HeatCapacitor heatCapacitorCor(C=10*
         VRooCor*1005*1.2)
     annotation (Placement(transformation(extent={{186,26},{206,46}})));
-  Modelica.Thermal.HeatTransfer.Components.HeatCapacitor heatCapacitorNor(C=30*
+  Modelica.Thermal.HeatTransfer.Components.HeatCapacitor heatCapacitorNor(C=10*
         VRooNor*1005*1.2)
     annotation (Placement(transformation(extent={{198,142},{218,162}})));
   Modelica.Blocks.Sources.CombiTimeTable ligSch(
@@ -111,7 +111,7 @@ model Floor "Model of a floor of the building"
     extrapolation=Modelica.Blocks.Types.Extrapolation.Periodic)
     "internal heat gain from occupant"
     annotation (Placement(transformation(extent={{-292,-186},{-272,-166}})));
-  Modelica.Blocks.Math.MatrixGain ligGai(K=10*[0.5; 0.5; 0])
+  Modelica.Blocks.Math.MatrixGain ligGai(K=10*[0.9; 0.1; 0])
     "Matrix gain to split up heat gain in radiant, convective and latent gain"
     annotation (Placement(transformation(extent={{-218,-114},{-198,-94}})));
   Modelica.Blocks.Math.MatrixGain plgGai(K=10*[0.5; 0.5; 0])

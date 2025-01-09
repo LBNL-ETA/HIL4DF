@@ -10,8 +10,11 @@ model VavReheatUnitTest
     samplePeriod=180,
     V_flow_nominal=0.2265/1.2,
     AFlo=18.598,
-    TiCoo=60,
-    TiHea=60,
+    kCoo=0.5,
+    TiCoo=15,
+    kHea=0.5,
+    TiHea=15,
+    kVal=0.5,
     TiVal=60,
     TiDam=60,
     VDisCooSetMax_flow=0.2265/1.2,
@@ -20,7 +23,7 @@ model VavReheatUnitTest
     VDisConMin_flow=0.0595/1.2,
     dTDisZonSetMax=17,
     TDisMin=285.95)
-    annotation (Placement(transformation(extent={{-32,-2},{-12,18}})));
+    annotation (Placement(transformation(extent={{-34,-2},{-14,18}})));
   Modelica.Blocks.Sources.CombiTimeTable souRooTem(
     tableOnFile=false,
     table=[21600000,294.62; 21600060,294.62; 21600120,294.64; 21600180,294.64;
@@ -3275,7 +3278,7 @@ model VavReheatUnitTest
         21858480,288.71; 21858540,288.71; 21858600,288.71; 21858660,288.71;
         21858720,288.71; 21858780,288.71; 21858840,288.71; 21858900,288.71;
         21858960,288.71; 21859020,288.71; 21859080,288.71; 21859140,288.71],
-    smoothness=Modelica.Blocks.Types.Smoothness.LinearSegments,
+    smoothness=Modelica.Blocks.Types.Smoothness.ConstantSegments,
     extrapolation=Modelica.Blocks.Types.Extrapolation.HoldLastPoint)
     annotation (Placement(transformation(extent={{-48,28},{-28,48}})));
   Modelica.Blocks.Sources.CombiTimeTable ahuSupAirTem(
@@ -5093,16 +5096,16 @@ model VavReheatUnitTest
     annotation (Placement(transformation(extent={{0,-30},{20,-10}})));
 equation
   connect(souRooTem.y[1], terUniCon.TZon) annotation (Line(points={{-61,18},{
-          -44,18},{-44,8},{-34,8}}, color={0,0,127}));
-  connect(integerConstant.y, terUniCon.uOpeMod) annotation (Line(points={{-63,
-          -34},{-42,-34},{-42,-2},{-34,-2}}, color={255,127,0}));
+          -44,18},{-44,8},{-36,8}}, color={0,0,127}));
+  connect(integerConstant.y, terUniCon.uOpeMod) annotation (Line(points={{-63,-34},
+          {-42,-34},{-42,-2},{-36,-2}},      color={255,127,0}));
   connect(souDisTemTab.y[1], terUniCon.TDis) annotation (Line(points={{-95,-4},
-          {-44,-4},{-44,2},{-34,2}}, color={0,0,127}));
-  connect(souRooHeaSet.y[1], terUniCon.TZonHeaSet) annotation (Line(points={{
-          -27,38},{-24,38},{-24,52},{-52,52},{-52,20},{-42,20},{-42,18},{-34,18}},
+          {-44,-4},{-44,2},{-36,2}}, color={0,0,127}));
+  connect(souRooHeaSet.y[1], terUniCon.TZonHeaSet) annotation (Line(points={{-27,38},
+          {-24,38},{-24,52},{-52,52},{-52,20},{-42,20},{-42,18},{-36,18}},
         color={0,0,127}));
-  connect(ahuSupAirTem.y[1], terUniCon.TSupAHU) annotation (Line(points={{-123,
-          22},{-88,22},{-88,0},{-34,0}}, color={0,0,127}));
+  connect(ahuSupAirTem.y[1], terUniCon.TSupAHU) annotation (Line(points={{-123,22},
+          {-88,22},{-88,0},{-36,0}},     color={0,0,127}));
   annotation (Icon(coordinateSystem(preserveAspectRatio=false)), Diagram(
         coordinateSystem(preserveAspectRatio=false)),
     experiment(

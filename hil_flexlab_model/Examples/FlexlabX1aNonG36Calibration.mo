@@ -4,8 +4,7 @@ model FlexlabX1aNonG36Calibration
 
   extends Modelica.Icons.Example;
   extends
-    hil_flexlab_model.Test1.BaseClasses1.PartialFlexlab_Summer_2021_Test_NonG36
-    (
+    hil_flexlab_model.Test1.BaseClasses1.PartialFlexlab_Summer_2021_Test_NonG36(
     occSch(
       occupancy={0,86399},
       firstEntryOccupied=true,
@@ -50,9 +49,10 @@ model FlexlabX1aNonG36Calibration
     V_flow_nominal=mNor_flow_nominal/1.2,
     AFlo=AFloNor,
     final samplePeriod=samplePeriod,
+    kCoo=0.1,
     TiCoo=60,
     kHea=0.5,
-    TiHea=60,
+    TiHea=15,
     TiVal=60,
     TiDam=60,
     VDisCooSetMax_flow=mNor_flow_nominal/1.2,
@@ -66,9 +66,10 @@ model FlexlabX1aNonG36Calibration
     V_flow_nominal=mCor_flow_nominal/1.2,
     AFlo=AFloCor,
     final samplePeriod=samplePeriod,
+    kCoo=0.1,
     TiCoo=60,
     kHea=0.5,
-    TiHea=60,
+    TiHea=15,
     TiVal=60,
     TiDam=60,
     VDisCooSetMax_flow=mCor_flow_nominal/1.2,
@@ -82,9 +83,10 @@ model FlexlabX1aNonG36Calibration
     V_flow_nominal=mSou_flow_nominal/1.2,
     AFlo=AFloSou,
     final samplePeriod=samplePeriod,
+    kCoo=0.1,
     TiCoo=60,
     kHea=0.5,
-    TiHea=60,
+    TiHea=15,
     TiVal=60,
     TiDam=60,
     VDisCooSetMax_flow=mSou_flow_nominal/1.2,
@@ -181,6 +183,7 @@ model FlexlabX1aNonG36Calibration
   Modelica.Blocks.Sources.CombiTimeTable heaSetDR(
     table=[0,-5.5444; 5,-5.5444; 5,-3.3222; 6,-3.3222; 6,-1.6556; 7,-1.6556; 7,
         0.0111; 22,0.0111; 22,-5.5444; 24,-5.5444],
+    smoothness=Modelica.Blocks.Types.Smoothness.ConstantSegments,
     extrapolation=Modelica.Blocks.Types.Extrapolation.Periodic,
     timeScale=3600) "heating schedule for demand response"
     annotation (Placement(transformation(extent={{-142,222},{-122,242}})));
@@ -216,6 +219,7 @@ model FlexlabX1aNonG36Calibration
   Modelica.Blocks.Sources.CombiTimeTable cooSetNoDf(
     table=[0,3.3667; 5,3.3667; 5,2.2556; 6,2.2556; 6,1.7; 7,1.7; 7,0.0333; 22,
         0.0333; 22,3.3667; 24,3.3667],
+    smoothness=Modelica.Blocks.Types.Smoothness.ConstantSegments,
     extrapolation=Modelica.Blocks.Types.Extrapolation.Periodic,
     timeScale=3600) "cooling schedule for demand response"
     annotation (Placement(transformation(extent={{-494,398},{-474,418}})));
@@ -223,6 +227,7 @@ model FlexlabX1aNonG36Calibration
     table=[0,3.3667; 5,3.3667; 5,2.2556; 6,2.2556; 6,1.7; 7,1.7; 7,0.0333; 14,
         0.0333; 14,2.2556; 18,2.2556; 18,0.0333; 22,0.0333; 22,3.3667; 24,
         3.3667],
+    smoothness=Modelica.Blocks.Types.Smoothness.ConstantSegments,
     extrapolation=Modelica.Blocks.Types.Extrapolation.Periodic,
     timeScale=3600) "cooling schedule for demand response"
     annotation (Placement(transformation(extent={{-486,364},{-466,384}})));
@@ -230,6 +235,7 @@ model FlexlabX1aNonG36Calibration
     table=[0,3.3667; 5,3.3667; 5,2.2556; 6,2.2556; 6,1.7; 7,1.7; 7,0.0333; 10,
         0.0333; 10,-1.0778; 14,-1.0778; 14,2.2556; 18,2.2556; 18,0.0333; 22,
         0.0333; 22,3.3667; 24,3.3667],
+    smoothness=Modelica.Blocks.Types.Smoothness.ConstantSegments,
     extrapolation=Modelica.Blocks.Types.Extrapolation.Periodic,
     timeScale=3600) "cooling schedule for demand response"
     annotation (Placement(transformation(extent={{-484,320},{-464,340}})));
