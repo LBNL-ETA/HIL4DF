@@ -146,8 +146,8 @@ equation
   connect(bou.ports[1], floorG36_1.portsNor[2]) annotation (Line(points={{178,58},
           {184,58},{184,86},{-16.2391,86},{-16.2391,54.6462}}, color={0,127,255}));
   connect(corFlo.ports[1], floorG36_1.portsCor[1]) annotation (Line(points={{-120,10},
-          {-66,10},{-66,0},{-28,0},{-28,38.4308},{-18.6304,38.4308}},     color
-        ={0,127,255}));
+          {-66,10},{-66,0},{-28,0},{-28,38.4308},{-18.6304,38.4308}},     color=
+         {0,127,255}));
   connect(bou1.ports[1], floorG36_1.portsCor[2]) annotation (Line(points={{182,18},
           {184,18},{184,0},{58,0},{58,-2},{-28,-2},{-28,38.4308},{-16.2391,
           38.4308}},

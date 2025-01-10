@@ -347,8 +347,8 @@ equation
     annotation (Line(points={{-88,308},{-156,308},{-156,310},{-176,310}},
                                                  color={0,127,255}));
   connect(infiltration_DesignFlowRate1.infFloRat, freshAir1.m_flow_in)
-    annotation (Line(points={{-172,270},{-168,270},{-168,266},{-92,266}}, color
-        ={0,0,127}));
+    annotation (Line(points={{-172,270},{-168,270},{-168,266},{-92,266}}, color=
+         {0,0,127}));
   connect(duc2.port_b,pAtm2. ports[1])
     annotation (Line(points={{-104,432},{-172,432},{-172,434},{-192,434}},
                                                  color={0,127,255}));

@@ -444,8 +444,8 @@ equation
           -104,-82},{-90,-82}},
                            color={0,0,127}));
   connect(eco.yOut, eco_Enable_OAT.OutdoorDamperPosition) annotation (Line(
-        points={{-10,-34},{-10,-22},{-46,-22},{-46,-118.2},{-55,-118.2}}, color
-        ={0,0,127}));
+        points={{-10,-34},{-10,-22},{-46,-22},{-46,-118.2},{-55,-118.2}}, color=
+         {0,0,127}));
   connect(conAHU.u_UnOcc, greater_unocc.y) annotation (Line(points={{355.6,
           415.741},{-332,415.741},{-332,458},{-299,458}}, color={255,0,255}));
   connect(zonOutAirSet.nOcc, integerConstant.y) annotation (Line(points={{226,

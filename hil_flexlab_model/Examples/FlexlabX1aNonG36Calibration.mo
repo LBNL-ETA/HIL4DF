@@ -241,7 +241,7 @@ model FlexlabX1aNonG36Calibration
     annotation (Placement(transformation(extent={{-484,320},{-464,340}})));
   Modelica.Blocks.Math.RealToInteger realToInteger
     annotation (Placement(transformation(extent={{-460,420},{-440,440}})));
-  BaseClasses.SetpointSwitch setpointSwitch
+  .hil_flexlab_model.BaseClasses.SetpointSwitch setpointSwitch
     annotation (Placement(transformation(extent={{-410,348},{-390,368}})));
 equation
   connect(fanSup.port_b, dpDisSupFan.port_a) annotation (Line(
