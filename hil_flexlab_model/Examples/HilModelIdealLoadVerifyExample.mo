@@ -1,30 +1,38 @@
 within hil_flexlab_model.Examples;
 model HilModelIdealLoadVerifyExample
-  BaseClasses.HilModelIdealLoadVerify hilModelIdealLoadVerify
+  BaseClasses.HilModelIdealLoadVerify hilModelIdealLoadVerify(
+    infiltration_DesignFlowRate1(desFloRat=0.008572*0.4714),
+    infiltration_DesignFlowRate2(desFloRat=0.01818*0.4714),
+    infiltration_DesignFlowRate3(desFloRat=0.02573*0.4714),
+    infiltration_DesignFlowRate4(desFloRat=0.008572*0.4714),
+    infiltration_DesignFlowRate5(desFloRat=0.01761*0.4714),
+    infiltration_DesignFlowRate6(desFloRat=0.02573*0.4714),
+    infiltration_DesignFlowRate11(desFloRat=0.08982*0.5737),
+    infiltration_DesignFlowRate12(desFloRat=0.08951*0.5737))
     annotation (Placement(transformation(extent={{36,-26},{56,-6}})));
   BaseClasses.Trc_custom_air_conditioner_ConstantFlowRate
-    trc_custom_air_conditioner_ConstantFlowRate[6]
+    trc_custom_air_conditioner_ConstantFlowRate[6](HeaCooCap=2500)
     annotation (Placement(transformation(extent={{46,38},{66,58}})));
   Modelica.Blocks.Sources.CombiTimeTable cooSetNoDf(
     tableOnFile=true,
     tableName="tab1",
     fileName=ModelicaServices.ExternalReferences.loadResource(
         "modelica://hil_flexlab_model/Resources/FlexlabSchedule/cooling_baseline schedule.txt"),
-
     smoothness=Modelica.Blocks.Types.Smoothness.ConstantSegments,
     extrapolation=Modelica.Blocks.Types.Extrapolation.Periodic,
     timeScale=3600) "cooling schedule for demand response"
     annotation (Placement(transformation(extent={{-186,40},{-166,60}})));
+
   Modelica.Blocks.Sources.CombiTimeTable heaSetDR(
     tableOnFile=true,
     tableName="tab1",
     fileName=ModelicaServices.ExternalReferences.loadResource(
         "modelica://hil_flexlab_model/Resources/FlexlabSchedule/heating_baseline schedule.txt"),
-
     smoothness=Modelica.Blocks.Types.Smoothness.ConstantSegments,
     extrapolation=Modelica.Blocks.Types.Extrapolation.Periodic,
     timeScale=3600) "heating schedule for demand response"
     annotation (Placement(transformation(extent={{-176,-32},{-156,-12}})));
+
   Buildings.Controls.OBC.CDL.Routing.RealScalarReplicator reaScaRep(nout=6)
     annotation (Placement(transformation(extent={{-54,40},{-34,60}})));
   Buildings.Controls.OBC.CDL.Routing.RealScalarReplicator reaScaRep1(nout=6)
@@ -35,8 +43,8 @@ model HilModelIdealLoadVerifyExample
     annotation (Placement(transformation(extent={{-116,-34},{-96,-14}})));
 equation
   connect(hilModelIdealLoadVerify.TAir[1:6],
-    trc_custom_air_conditioner_ConstantFlowRate.ZAT) annotation (Line(points={{
-          58,-21.4833},{76,-21.4833},{76,-22},{90,-22},{90,64},{44,64},{44,54.4}},
+    trc_custom_air_conditioner_ConstantFlowRate.ZAT) annotation (Line(points={{58,
+          -21.4833},{76,-21.4833},{76,-22},{90,-22},{90,64},{44,64},{44,54.4}},
         color={0,0,127}));
   connect(trc_custom_air_conditioner_ConstantFlowRate.port_b,
     hilModelIdealLoadVerify.port_a[1:6]) annotation (Line(points={{66.8,39},{76,

@@ -62,7 +62,7 @@ model Trc_custom_air_conditioner_ConstantFlowRate
         MediumAir) annotation (Placement(transformation(extent={{98,-100},{118,
             -80}}),
         iconTransformation(extent={{98,-100},{118,-80}})));
-  Dehumidifier              dehumidifier(const1(k=0.6))
+  Dehumidifier              dehumidifier(const1(k=0.71))
     annotation (Placement(transformation(extent={{64,-140},{84,-120}})));
   Buildings.Fluid.Sensors.TemperatureTwoPort senTem(redeclare package Medium =
         MediumAir, m_flow_nominal=mRec_flow_nominal)
@@ -105,8 +105,8 @@ model Trc_custom_air_conditioner_ConstantFlowRate
         transformation(extent={{-140,8},{-100,48}}), iconTransformation(extent=
             {{-140,-46},{-100,-6}})));
   Modelica.Blocks.Interfaces.RealInput TCooSet annotation (Placement(
-        transformation(extent={{-134,-26},{-94,14}}), iconTransformation(extent
-          ={{-140,0},{-100,40}})));
+        transformation(extent={{-134,-26},{-94,14}}), iconTransformation(extent=
+           {{-140,0},{-100,40}})));
 equation
   connect(fan.port_b,hea.port_a)
     annotation (Line(points={{-98,-82},{-84,-82},{-84,-80},{-78,-80}},
