@@ -62,7 +62,7 @@ model Trc_custom_air_conditioner_ConstantFlowRate
         MediumAir) annotation (Placement(transformation(extent={{98,-100},{118,
             -80}}),
         iconTransformation(extent={{98,-100},{118,-80}})));
-  Dehumidifier              dehumidifier(const1(k=0.71))
+  Dehumidifier              dehumidifier(const1(k=0.75))
     annotation (Placement(transformation(extent={{64,-140},{84,-120}})));
   Buildings.Fluid.Sensors.TemperatureTwoPort senTem(redeclare package Medium =
         MediumAir, m_flow_nominal=mRec_flow_nominal)

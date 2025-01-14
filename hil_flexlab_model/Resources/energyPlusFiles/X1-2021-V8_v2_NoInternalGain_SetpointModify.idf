@@ -552,48 +552,28 @@
     Temperature,             !- Schedule Type Limits Name
     Through: 12/31,          !- Field 1
     For: AllDays,       !- Field 5
-    Until: 05:00,15.5556,       !- Field 6
-    Until: 06:00,17.7778,       !- Field 8
-    Until: 07:00,19.4444,       !- Field 10
-    Until: 22:00,21.1111,       !- Field 12
-    Until: 24:00,15.5556;       !- Field 14
+    Until: 24:00,21.11;       !- Field 14
 
   Schedule:Compact,
     CLG-SCHED,               !- Name
     Temperature,             !- Schedule Type Limits Name
     Through: 12/31,          !- Field 1
-    For: SummerDesignDay,    !- Field 2
-    Until: 06:00,26.7,       !- Field 3
-    Until: 22:00,23.3,       !- Field 5
-    Until: 24:00,26.7,       !- Field 7
-    For: AllOtherDays,       !- Field 9
-    Until: 05:00,26.7,       !- Field 10
-    Until: 06:00,25.6,       !- Field 12
-    Until: 07:00,25.0,       !- Field 14
-    Until: 22:00,23.3,       !- Field 16
-    Until: 24:00,26.7;       !- Field 18
+    For: AllDays,       !- Field 9
+    Until: 24:00,23.89;       !- Field 18
 
   Schedule:Compact,
     ZoneA-CLG-SCHED,         !- Name
     Temperature,             !- Schedule Type Limits Name
     Through: 12/31,          !- <none>
     For: AllDays,            !- <none>
-    Until: 05:00,26.6667,       !- <none>
-    Until: 06:00,25.5556,       !- <none>
-    Until: 07:00,25.0000,       !- <none>
-    Until: 22:00,23.3333,       !- <none>
-    Until: 24:00,26.6667;       !- <none>
+    Until: 24:00,23.89;       !- <none>
 
   Schedule:Compact,
     ZoneB-CLG-SCHED,         !- Name
     Temperature,             !- Schedule Type Limits Name
     Through: 12/31,          !- <none>
     For: AllDays,            !- <none>
-    Until: 05:00,26.6667,       !- <none>
-    Until: 06:00,25.5556,       !- <none>
-    Until: 07:00,25.0000,       !- <none>
-    Until: 22:00,23.3333,       !- <none>
-    Until: 24:00,26.6667;       !- <none>
+    Until: 24:00,23.89;       !- <none>
 
   Schedule:Compact,
     EcmzAvailApplicSch,      !- Name
@@ -5462,49 +5442,6 @@
     0,                       !- Inside Reveal Depth {m}
     0;                       !- Inside Reveal Solar Absorptance
 
-!-   ===========  ALL OBJECTS IN CLASS: INTERNALMASS Orig ===========
-
-  InternalMass,
-    FlexLab-X3-ZoneA-Core-Zone Mass,  !- Name
-    InteriorFurnishings,     !- Construction Name
-    FlexLab-X3-ZoneA-Core-Zone Thermal Zone,  !- Zone or ZoneList Name
-    ,                        !- Space or SpaceList Name
-    9.29368;                 !- Surface Area {m2}
-
-  InternalMass,
-    FlexLab-X3-ZoneA-South-Zone Mass,  !- Name
-    InteriorFurnishings,     !- Construction Name
-    FlexLab-X3-ZoneA-South-Zone Thermal Zone,  !- Zone or ZoneList Name
-    ,                        !- Space or SpaceList Name
-    9.29368;                 !- Surface Area {m2}
-
-  InternalMass,
-    FlexLab-X3-ZoneA-North-Zone Mass,  !- Name
-    InteriorFurnishings,     !- Construction Name
-    FlexLab-X3-ZoneA-North-Zone Thermal Zone,  !- Zone or ZoneList Name
-    ,                        !- Space or SpaceList Name
-    8.36431;                 !- Surface Area {m2}
-
-  InternalMass,
-    FlexLab-X3-ZoneB-Core-Zone Mass,  !- Name
-    InteriorFurnishings,     !- Construction Name
-    FlexLab-X3-ZoneB-Core-Zone Thermal Zone,  !- Zone or ZoneList Name
-    ,                        !- Space or SpaceList Name
-    9.29368;                 !- Surface Area {m2}
-
-  InternalMass,
-    FlexLab-X3-ZoneB-South-Zone Mass,  !- Name
-    InteriorFurnishings,     !- Construction Name
-    FlexLab-X3-ZoneB-South-Zone Thermal Zone,  !- Zone or ZoneList Name
-    ,                        !- Space or SpaceList Name
-    9.29368;                 !- Surface Area {m2}
-
-  InternalMass,
-    FlexLab-X3-ZoneB-North-Zone Mass,  !- Name
-    InteriorFurnishings,     !- Construction Name
-    FlexLab-X3-ZoneB-North-Zone Thermal Zone,  !- Zone or ZoneList Name
-    ,                        !- Space or SpaceList Name
-    8.36431;                 !- Surface Area {m2}
 
 !-   ===========  ALL OBJECTS IN CLASS: SHADING:BUILDING:DETAILED ===========
 

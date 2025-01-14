@@ -41,6 +41,10 @@ model HilModelIdealLoadVerifyExample
     annotation (Placement(transformation(extent={{-126,50},{-106,70}})));
   Modelica.Blocks.Math.UnitConversions.From_degC from_degC1
     annotation (Placement(transformation(extent={{-116,-34},{-96,-14}})));
+  Modelica.Blocks.Sources.Constant const(k=23.89)
+    annotation (Placement(transformation(extent={{-190,86},{-170,106}})));
+  Modelica.Blocks.Sources.Constant const1(k=21.11)
+    annotation (Placement(transformation(extent={{-186,-66},{-166,-46}})));
 equation
   connect(hilModelIdealLoadVerify.TAir[1:6],
     trc_custom_air_conditioner_ConstantFlowRate.ZAT) annotation (Line(points={{58,
@@ -57,14 +61,14 @@ equation
   connect(trc_custom_air_conditioner_ConstantFlowRate.THeaSet, reaScaRep1.y)
     annotation (Line(points={{44,45.4},{-16,45.4},{-16,-38},{-24,-38},{-24,-30}},
         color={0,0,127}));
-  connect(cooSetNoDf.y[1], from_degC.u) annotation (Line(points={{-165,50},{
-          -146,50},{-146,60},{-128,60}}, color={0,0,127}));
-  connect(heaSetDR.y[1], from_degC1.u) annotation (Line(points={{-155,-22},{
-          -137,-22},{-137,-24},{-118,-24}}, color={0,0,127}));
   connect(from_degC.y, reaScaRep.u) annotation (Line(points={{-105,60},{-64,60},
           {-64,50},{-56,50}}, color={0,0,127}));
   connect(from_degC1.y, reaScaRep1.u) annotation (Line(points={{-95,-24},{-70,
           -24},{-70,-32},{-48,-32},{-48,-30}}, color={0,0,127}));
+  connect(const.y, from_degC.u) annotation (Line(points={{-169,96},{-146.5,96},
+          {-146.5,60},{-128,60}}, color={0,0,127}));
+  connect(const1.y, from_degC1.u) annotation (Line(points={{-165,-56},{-118,-56},
+          {-118,-24}}, color={0,0,127}));
   annotation (
     Icon(coordinateSystem(preserveAspectRatio=false)),
     Diagram(coordinateSystem(preserveAspectRatio=false)),
