@@ -193,6 +193,9 @@ protected
     "Check if operation mode index is greater than set up mode index (3)"
     annotation (Placement(transformation(extent={{-40,-130},{-20,-110}})));
 
+public
+  CCC.Controls.FmuPatch fmuPatch
+    annotation (Placement(transformation(extent={{172,-74},{192,-54}})));
 equation
   connect(minOutTem.y, lin.x1)
     annotation (Line(points={{-18,70},{0,70},{0,58},{18,58}},
