@@ -12,3 +12,4 @@
 **/buildlog.txt
 **/*.bak-mo
 Buildings/
+**/.ipynb_checkpoints/
