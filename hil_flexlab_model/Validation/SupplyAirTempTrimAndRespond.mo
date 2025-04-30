@@ -2,7 +2,7 @@ within hil_flexlab_model.Validation;
 model SupplyAirTempTrimAndRespond
   Test1.BaseClasses1.Controls.SupplyTemperature ModelSatSetpoint(
     final samplePeriod=180,
-    final TSupSetMin=285.95,
+    final TSupSetMin=284.85,
     final TSupSetMax=291.45,
     final TSupSetDes=285.95,
     final TOutMin=291.45,
@@ -2917,6 +2917,8 @@ model SupplyAirTempTrimAndRespond
     annotation (Placement(transformation(extent={{32,-68},{68,-32}})));
   Modelica.Blocks.Math.RealToInteger realToInteger
     annotation (Placement(transformation(extent={{-24,-38},{-4,-18}})));
+  Modelica.Blocks.Sources.Constant const1(k=273.15 + 30)
+    annotation (Placement(transformation(extent={{-164,44},{-144,64}})));
 equation
   connect(const.y, ModelSatSetpoint.TZonSetAve) annotation (Line(points={{-39,
           68},{20,68},{20,30},{28,30}}, color={0,0,127}));
@@ -2924,12 +2926,12 @@ equation
           {{-75,18},{2,18},{2,6},{28,6}}, color={255,0,255}));
   connect(integerConstant.y, ModelSatSetpoint.uOpeMod) annotation (Line(points=
           {{-45,-58},{18,-58},{18,-2},{28,-2}}, color={255,127,0}));
-  connect(OAT.y[1], ModelSatSetpoint.TOut) annotation (Line(points={{-77,50},{
-          18,50},{18,22},{28,22}}, color={0,0,127}));
   connect(SatRequests.y[1], realToInteger.u)
     annotation (Line(points={{-69,-28},{-26,-28}}, color={0,0,127}));
   connect(realToInteger.y, ModelSatSetpoint.uZonTemResReq) annotation (Line(
         points={{-3,-28},{4,-28},{4,14},{28,14}}, color={255,127,0}));
+  connect(const1.y, ModelSatSetpoint.TOut) annotation (Line(points={{-143,54},{
+          -104,54},{-104,34},{18,34},{18,22},{28,22}}, color={0,0,127}));
   annotation (Icon(coordinateSystem(preserveAspectRatio=false)), Diagram(
         coordinateSystem(preserveAspectRatio=false)),
     experiment(
