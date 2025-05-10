@@ -120,6 +120,9 @@ block SupplyTemperature_standardized
     final maxRes=maxRes) "Maximum cooling supply temperature reset"
     annotation (Placement(transformation(extent={{-100,20},{-80,40}})));
 
+public
+  CCC.Controls.FmuPatch fmuPatch
+    annotation (Placement(transformation(extent={{208,-114},{228,-94}})));
 protected
   parameter Real iniSet(
     final unit="K",

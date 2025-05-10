@@ -1,13 +1,14 @@
 within hil_flexlab_model.Validation;
 model SupplyAirTempTrimAndRespond
-  Test1.BaseClasses1.Controls.SupplyTemperature ModelSatSetpoint(
+  Test1.BaseClasses1.Controls.SupplyTemperature_standardized2
+                                                ModelSatSetpoint(
     final samplePeriod=180,
     final TSupSetMin=284.85,
     final TSupSetMax=291.45,
     final TSupSetDes=285.95,
     final TOutMin=291.45,
     final TOutMax=294.25,
-    final delTim=300,
+    final delTim=0,
     final numIgnReq=0,
     final triAmo=0.0833,
     final resAmo=-0.1667,
@@ -2914,11 +2915,11 @@ model SupplyAirTempTrimAndRespond
         21858960,291.48; 21859020,291.48; 21859080,291.48; 21859140,291.48],
     smoothness=Modelica.Blocks.Types.Smoothness.LinearSegments,
     extrapolation=Modelica.Blocks.Types.Extrapolation.HoldLastPoint)
-    annotation (Placement(transformation(extent={{32,-68},{68,-32}})));
+    annotation (Placement(transformation(extent={{134,-92},{170,-56}})));
   Modelica.Blocks.Math.RealToInteger realToInteger
     annotation (Placement(transformation(extent={{-24,-38},{-4,-18}})));
   Modelica.Blocks.Sources.Constant const1(k=273.15 + 30)
-    annotation (Placement(transformation(extent={{-164,44},{-144,64}})));
+    annotation (Placement(transformation(extent={{-182,44},{-162,64}})));
 equation
   connect(const.y, ModelSatSetpoint.TZonSetAve) annotation (Line(points={{-39,
           68},{20,68},{20,30},{28,30}}, color={0,0,127}));
@@ -2930,8 +2931,8 @@ equation
     annotation (Line(points={{-69,-28},{-26,-28}}, color={0,0,127}));
   connect(realToInteger.y, ModelSatSetpoint.uZonTemResReq) annotation (Line(
         points={{-3,-28},{4,-28},{4,14},{28,14}}, color={255,127,0}));
-  connect(const1.y, ModelSatSetpoint.TOut) annotation (Line(points={{-143,54},{
-          -104,54},{-104,34},{18,34},{18,22},{28,22}}, color={0,0,127}));
+  connect(OAT.y[1], ModelSatSetpoint.TOut) annotation (Line(points={{-77,50},{
+          18,50},{18,22},{28,22}}, color={0,0,127}));
   annotation (Icon(coordinateSystem(preserveAspectRatio=false)), Diagram(
         coordinateSystem(preserveAspectRatio=false)),
     experiment(
