@@ -1,5 +1,5 @@
 within hil_flexlab_model.Test1.BaseClasses1.Controls;
-block SupplyTemperature_standardized
+block SupplyTemperature_standardized3
   "Supply air temperature setpoint for multi zone system"
 
   parameter Real TSupSetDes(
@@ -76,8 +76,7 @@ block SupplyTemperature_standardized
   Buildings.Controls.OBC.CDL.Interfaces.RealInput TOut(
     final unit="K",
     final displayUnit="degC",
-    final quantity="ThermodynamicTemperature")
-    "Outdoor air temperature"
+    final quantity="ThermodynamicTemperature") "Outdoor air temperature"
     annotation (Placement(transformation(extent={{-180,40},{-140,80}}),
         iconTransformation(extent={{-140,20},{-100,60}})));
   Buildings.Controls.OBC.CDL.Interfaces.RealInput TZonSetAve(
@@ -107,7 +106,7 @@ block SupplyTemperature_standardized
     annotation (Placement(transformation(extent={{140,-20},{180,20}}),
         iconTransformation(extent={{100,-20},{140,20}})));
 
-  TrimAndRespond
+  TrimAndRespond_DynamicLimits
     maxSupTemRes(
     final delTim=delTim,
     final iniSet=iniSet,
@@ -139,20 +138,16 @@ public
   parameter Real minSet(
     final unit="K",
     final displayUnit="degC",
-    final quantity="ThermodynamicTemperature") = TSupSetDes
+    final quantity="ThermodynamicTemperature") = TSupSetMin
     "Minimum setpoint"
     annotation (Dialog(group="Trim and respond logic"));
 
-  Buildings.Controls.OBC.CDL.Reals.Line lin
-    "Supply temperature distributes linearly between minimum and maximum supply 
-    air temperature, according to outdoor temperature"
-    annotation (Placement(transformation(extent={{20,40},{40,60}})));
   Buildings.Controls.OBC.CDL.Reals.Sources.Constant minOutTem(k=TOutMin)
     "Lower value of the outdoor air temperature reset range"
-    annotation (Placement(transformation(extent={{-40,60},{-20,80}})));
+    annotation (Placement(transformation(extent={{-108,54},{-88,74}})));
   Buildings.Controls.OBC.CDL.Reals.Sources.Constant maxOutTem(k=TOutMax)
     "Higher value of the outdoor air temperature reset range"
-    annotation (Placement(transformation(extent={{-40,20},{-20,40}})));
+    annotation (Placement(transformation(extent={{-148,30},{-128,50}})));
   Buildings.Controls.OBC.CDL.Reals.Sources.Constant minSupTem(k=TSupSetMin)
     "Lowest cooling supply air temperature setpoint"
     annotation (Placement(transformation(extent={{-100,-20},{-80,0}})));
@@ -198,18 +193,6 @@ public
     annotation (Placement(transformation(extent={{-40,-130},{-20,-110}})));
 
 equation
-  connect(minOutTem.y, lin.x1)
-    annotation (Line(points={{-18,70},{0,70},{0,58},{18,58}},
-      color={0,0,127}));
-  connect(TOut, lin.u)
-    annotation (Line(points={{-160,60},{-100,60},{-100,50},{18,50}},
-      color={0,0,127}));
-  connect(maxOutTem.y, lin.x2)
-    annotation (Line(points={{-18,30},{0,30},{0,46},{18,46}},
-      color={0,0,127}));
-  connect(minSupTem.y, lin.f2)
-    annotation (Line(points={{-78,-10},{10,-10},{10,42},{18,42}},
-      color={0,0,127}));
   connect(and1.y, swi1.u2)
     annotation (Line(points={{42,-90},{60,-90},{60,-50},{78,-50}},
       color={255,0,255}));
@@ -259,21 +242,25 @@ equation
   connect(uOpeMod, intGreThr1.u)
     annotation (Line(points={{-160,-100},{-120,-100},{-120,-120},{-42,-120}},
       color={255,127,0}));
-  connect(lin.y, swi2.u3)
-    annotation (Line(points={{42,50},{50,50},{50,-30},{8,-30},{8,-58},{18,-58}},
-      color={0,0,127}));
   connect(uZonTemResReq, maxSupTemRes.numOfReq)
     annotation (Line(points={{-160,20},{-112,20},{-112,22},{-102,22}},
       color={255,127,0}));
   connect(uSupFan, maxSupTemRes.uDevSta)
     annotation (Line(points={{-160,-30},{-120,-30},{-120,38},{-102,38}},
       color={255,0,255}));
-  connect(maxSupTemRes.y, lin.f1)
-    annotation (Line(points={{-78,30},{-60,30},{-60,54},{18,54}},
-      color={0,0,127}));
   connect(swi3.y, TSupSet)
     annotation (Line(points={{102,0},{160,0}},   color={0,0,127}));
 
+  connect(TOut, maxSupTemRes.TOut) annotation (Line(points={{-160,60},{-116,60},
+          {-116,34},{-102,34}}, color={0,0,127}));
+  connect(minOutTem.y, maxSupTemRes.TOutMin) annotation (Line(points={{-86,64},{
+          -82,64},{-82,31.2},{-102,31.2}}, color={0,0,127}));
+  connect(maxOutTem.y, maxSupTemRes.TOutMax) annotation (Line(points={{-126,40},
+          {-114,40},{-114,28.4},{-102,28.4}}, color={0,0,127}));
+  connect(minSupTem.y, maxSupTemRes.TSupSetMin) annotation (Line(points={{-78,-10},
+          {-72,-10},{-72,25.2},{-102,25.2}}, color={0,0,127}));
+  connect(maxSupTemRes.y, swi2.u3) annotation (Line(points={{-78,30},{-48,30},{-48,
+          34},{-4,34},{-4,-58},{18,-58}}, color={0,0,127}));
 annotation (
   defaultComponentName = "conTSupSet",
   Icon(graphics={
@@ -418,4 +405,4 @@ First implementation.
 </li>
 </ul>
 </html>"));
-end SupplyTemperature_standardized;
+end SupplyTemperature_standardized3;
