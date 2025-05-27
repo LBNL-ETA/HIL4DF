@@ -174,6 +174,16 @@ public
     "Supply temperature distributes linearly between minimum and maximum supply 
     air temperature, according to outdoor temperature"
     annotation (Placement(transformation(extent={{-102,56},{-82,76}})));
+  Buildings.Controls.OBC.CDL.Interfaces.RealInput TSupSetDes(
+    final unit="K",
+    final displayUnit="degC",
+    final quantity="ThermodynamicTemperature") annotation (Placement(
+        transformation(extent={{-260,-74},{-220,-34}}), iconTransformation(
+          extent={{-142,-130},{-102,-90}})));
+  Buildings.Controls.OBC.CDL.Reals.Line lin1
+    "Supply temperature distributes linearly between minimum and maximum supply 
+    air temperature, according to outdoor temperature"
+    annotation (Placement(transformation(extent={{58,46},{78,66}})));
 protected
   Buildings.Controls.OBC.CDL.Reals.Abs abs "Absolute value of real input"
     annotation (Placement(transformation(extent={{-120,-140},{-100,-120}})));
@@ -234,9 +244,6 @@ equation
       color={255,0,255}));
   connect(min1.y, maxInp.u1)
     annotation (Line(points={{22,100},{30,100},{30,106},{38,106}},
-      color={0,0,127}));
-  connect(minSetCon.y, maxInp.u2)
-    annotation (Line(points={{22,70},{30,70},{30,94},{38,94}},
       color={0,0,127}));
   connect(numOfReq, intToRea.u)
     annotation (Line(points={{-240,-10},{-202,-10}}, color={255,127,0}));
@@ -324,6 +331,18 @@ equation
           -118,70},{-104,70}}, color={0,0,127}));
   connect(lin.y, min1.u2) annotation (Line(points={{-80,66},{-38,66},{-38,94},{
           -2,94},{-2,94}}, color={0,0,127}));
+  connect(TOutMin, lin1.x1) annotation (Line(points={{-240,98},{-114,98},{-114,
+          82},{-6,82},{-6,54},{46,54},{46,64},{56,64}}, color={0,0,127}));
+  connect(TOutMax, lin1.x2) annotation (Line(points={{-240,60},{-114,60},{-114,
+          50},{48,50},{48,52},{56,52}}, color={0,0,127}));
+  connect(TSupSetMin, lin1.f2) annotation (Line(points={{-242,30},{-112,30},{
+          -112,48},{56,48}}, color={0,0,127}));
+  connect(TSupSetDes, lin1.f1) annotation (Line(points={{-240,-54},{-91,-54},{
+          -91,60},{56,60}}, color={0,0,127}));
+  connect(TOut, lin1.u) annotation (Line(points={{-242,136},{-122,136},{-122,88},
+          {-58,88},{-58,52},{48,52},{48,56},{56,56}}, color={0,0,127}));
+  connect(lin1.y, maxInp.u2) annotation (Line(points={{80,56},{96,56},{96,62},{
+          114,62},{114,94},{38,94}}, color={0,0,127}));
 annotation (
   defaultComponentName = "triRes",
   Icon(coordinateSystem(extent={{-100,-100},{100,100}}),

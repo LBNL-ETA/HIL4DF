@@ -192,6 +192,9 @@ public
     "Check if operation mode index is greater than set up mode index (3)"
     annotation (Placement(transformation(extent={{-40,-130},{-20,-110}})));
 
+  Buildings.Controls.OBC.CDL.Reals.Sources.Constant minSupTem1(k=TSupSetDes)
+    "Lowest cooling supply air temperature setpoint"
+    annotation (Placement(transformation(extent={{-148,-18},{-128,2}})));
 equation
   connect(and1.y, swi1.u2)
     annotation (Line(points={{42,-90},{60,-90},{60,-50},{78,-50}},
@@ -261,6 +264,9 @@ equation
           {-72,-10},{-72,25.2},{-102,25.2}}, color={0,0,127}));
   connect(maxSupTemRes.y, swi2.u3) annotation (Line(points={{-78,30},{-48,30},{-48,
           34},{-4,34},{-4,-58},{18,-58}}, color={0,0,127}));
+  connect(minSupTem1.y, maxSupTemRes.TSupSetDes) annotation (Line(points={{-126,
+          -8},{-118,-8},{-118,18},{-110,18},{-110,19},{-102.2,19}}, color={0,0,
+          127}));
 annotation (
   defaultComponentName = "conTSupSet",
   Icon(graphics={
